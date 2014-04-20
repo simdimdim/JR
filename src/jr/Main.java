@@ -6,7 +6,7 @@ import java.util.List;
 class Main {
     boolean running=true;
     int board=0;
-    int height = 10;
+    int height = 20;
     static List<Board> all = new ArrayList();
     public void run(){ 
         create(); 
@@ -20,22 +20,21 @@ class Main {
                 cell.spawn(b.height); 
             }); 
             
-            //alive check and clearing duties
-            b.process.values().stream().forEach(cell -> { 
-                cell.check(); 
-            }); 
-             
             // prepare for next cycle 
-            b.process.clear(); 
-            b.process.putAll(b.tobe); 
+            //alive check and clearing duties
+            b.tobe.values().stream().forEach(cell -> { 
+                cell.check(); 
+            });
+            b.process.putAll(b.tobe);
+            b.tobe.clear();
  
             // stop simulation if no cells remain or eventual input
-            if(b.process.isEmpty()) {
+            if(b.tobe.isEmpty()) {
                 break;}
         } 
     }
     private void create(){
         board=all.size()+1; //needs work (for deleting boards)
-        all.add(new Board(50,50));
+        all.add(new Board(height,height));
     }
 }

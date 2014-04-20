@@ -8,6 +8,7 @@ package jr;
  
 import java.util.HashMap; 
 import java.util.Map; 
+import static jr.Main.all;
  
 /** 
  * Area for the Cells. 
@@ -38,14 +39,12 @@ class Board{
      * @return string representation of the board  
      */  
         @Override  
-        public String toString() {  
-            String out = "";  
-            for(int y=1;y<=height;y++) {  
-                for(int x=1;x<=width; x++) {  
-                    //out += process.get(Cell.generateHash(x,y)).stateAsInt()+" ";  
-                }  
-                out += "\n";  
-            }  
+        public String toString() {
+            String out = "";
+            process.values().stream().forEach(cell -> { 
+                //to finish 
+            });  
+                out += "\n";   
             return out;  
         } 
     } 

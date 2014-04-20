@@ -14,8 +14,8 @@ import static jr.Main.*;
  * @author thedoctor
  */
 public class Cell {
-    //State state = POTENT;
-    boolean state = false;
+    //State alive = POTENT;
+    boolean alive = false;
     short cons=1;
     final int ID;
     final int board;
@@ -36,13 +36,13 @@ public class Cell {
                 }
             }
         }
-        all.get(board).tobe.get(ID).state=cons==2||cons==3;
+        all.get(board).tobe.get(ID).alive=cons==2||cons==3;
         all.get(board).process.remove(ID);
     }
     public void check(){
         if (ID<0){die();}
         if (cons==2||cons==3){
-            all.get(board).tobe.get(ID).state=true;
+            all.get(board).tobe.get(ID).alive=true;
         }
         else {
             die();
@@ -58,7 +58,8 @@ public class Cell {
         all.get(board).tobe.remove(ID);
     }
     
-    public void generateHash(int x, int y){   
+    public int generateHash(int x, int y){
+        return x+y*x;
     }
     
     @Override 
@@ -77,7 +78,7 @@ public class Cell {
         return this.ID !=other.ID;
     }
     public int getStateAsInt() {
-    return state==true ? 1 : 0;
+    return alive==true ? 1 : 0;
     }
     /*
     public static enum State {
