@@ -19,6 +19,11 @@ class Main {
             b.process.values().stream().forEach(cell -> { 
                 cell.spawn(b.height); 
             }); 
+            
+            //alive check and clearing duties
+            b.process.values().stream().forEach(cell -> { 
+                cell.check(); 
+            }); 
              
             // prepare for next cycle 
             b.process.clear(); 

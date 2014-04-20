@@ -37,14 +37,12 @@ public class Cell {
             }
         }
         all.get(board).tobe.get(ID).state=cons==2||cons==3;
+        all.get(board).process.remove(ID);
     }
-    void check(){
+    public void check(){
         if (ID<0){die();}
         if (cons==2||cons==3){
             all.get(board).tobe.get(ID).state=true;
-            if (all.get(board).process.containsKey(ID)){
-                all.get(board).process.remove(ID);
-            }
         }
         else {
             die();
