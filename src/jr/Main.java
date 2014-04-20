@@ -1,34 +1,36 @@
 package jr;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 class Main {
     boolean running=true;
-    int height = 10;
     int board=0;
-    static Map<Integer,Board> all = new HashMap();
-    
-    public void run(){
-        create();
-        while (running){
-            if (!all.get(board).process.isEmpty()){
-                Iterator<Map.Entry<Integer,Cell>> iter = 
-                        all.get(board).process.entrySet().iterator();
-                while (iter.hasNext()&&running){
-                    Map.Entry<Integer,Cell> entry = iter.next();
-                    entry.getValue().spawn(height);
-                }
-            }
-            else{
-                all.get(board).process.clear();
-                all.get(board).process.putAll(all.get(board).tobe);
-            }
-        }
+    int height = 10;
+    static List<Board> all = new ArrayList();
+    public void run(){ 
+        create(); 
+        while (running){ 
+             
+            // use this instead of calling all.get[x] every time 
+            Board b = all.get(board); 
+                         
+            // process cells 
+            b.process.values().stream().forEach(cell -> { 
+                cell.spawn(b.height); 
+            }); 
+             
+            // prepare for next cycle 
+            b.process.clear(); 
+            b.process.putAll(b.tobe); 
+ 
+            // stop simulation if no cells remain or eventual input
+            if(b.process.isEmpty()) {
+                break;}
+        } 
     }
     private void create(){
-        board=all.size(); //needs work (for deleting boards)
-        all.put(board, new Board());
+        board=all.size()+1; //needs work (for deleting boards)
+        all.add(new Board(50,50));
     }
 }

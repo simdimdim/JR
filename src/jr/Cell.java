@@ -6,6 +6,7 @@
 
 package jr;
 
+//import static jr.Cell.State.*;
 import static jr.Main.*;
 
 /**
@@ -13,20 +14,20 @@ import static jr.Main.*;
  * @author thedoctor
  */
 public class Cell {
-    boolean state=false;
+    //State state = POTENT;
+    boolean state = false;
     short cons=1;
     final int ID;
     final int board;
     public Cell(int ID, int board){
         this.ID=ID;
         this.board=board;
-    }
+    }   
     public void spawn(int height){
         int var;
         for(int neigh = -1; neigh <= 1; neigh++){
             for (int fut= -height; fut<=height;fut+=height){
                 var=fut+neigh+ID;
-                if (var==ID) {continue;}   // leave out self
                 if (all.get(board).tobe.containsKey(var)){
                     all.get(board).tobe.get(var).iter();
                 }
@@ -35,14 +36,32 @@ public class Cell {
                 }
             }
         }
-        
+        all.get(board).tobe.get(ID).state=cons==2||cons==3;
     }
     void check(){
-        if (cons==2||cons==3){state=true;}
-        else {die();}
+        if (ID<0){die();}
+        if (cons==2||cons==3){
+            all.get(board).tobe.get(ID).state=true;
+            if (all.get(board).process.containsKey(ID)){
+                all.get(board).process.remove(ID);
+            }
+        }
+        else {
+            die();
+        }
     }
-    public void iter(){cons++;}
-    public void die(){all.get(board).tobe.remove(ID);}
+    public void iter(){
+        cons++;
+    }
+    public void deter(){
+        cons--;
+    }
+    public void die(){
+        all.get(board).tobe.remove(ID);
+    }
+    
+    public void generateHash(int x, int y){   
+    }
     
     @Override 
     public int hashCode() {
@@ -62,4 +81,12 @@ public class Cell {
     public int getStateAsInt() {
     return state==true ? 1 : 0;
     }
+    /*
+    public static enum State {
+        ALIVE,
+        POTENT;
+        public static State neg(State s) {
+            return s==ALIVE ? POTENT : ALIVE;
+        }
+    }*/
 }
