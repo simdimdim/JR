@@ -26,23 +26,23 @@ public class Cell {
         for(int neigh = -1; neigh <= 1; neigh++){
             for (int fut= -height; fut<=height;fut+=height){
                 var=fut+neigh+ID;
-                if (var==ID) continue;   // leave out self
-                if (tobe.containsKey(var)){
-                    tobe.get(var).iter();
+                if (var==ID) {continue;}   // leave out self
+                if (all.get(board).tobe.containsKey(var)){
+                    all.get(board).tobe.get(var).iter();
                 }
                 else{
-                    tobe.put(var, new Cell(var));
+                    all.get(board).tobe.put(var, new Cell(var,board));
                 }
             }
         }
         
     }
     void check(){
-        if (cons==2||cons==3)state=true;
-        else die();
+        if (cons==2||cons==3){state=true;}
+        else {die();}
     }
     public void iter(){cons++;}
-    public void die(){tobe.remove(ID);}
+    public void die(){all.get(board).tobe.remove(ID);}
     
     @Override 
     public int hashCode() {
