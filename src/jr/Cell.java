@@ -14,36 +14,33 @@ import static jr.Main.*;
  */
 public class Cell {
     boolean state=false;
-    short cons=0;
+    short cons=1;
     int ID;
-    public Cell(int x){
-        this.ID=x;
+    short board;
+    public Cell(int ID, short board){
+        this.ID=ID;
+        this.board=board;
     }
-    public void spawn(){
+    public void spawn(int height){
         int var;
-        for(int neigh = -1; neigh < 2; neigh+=1){
-            for (int fut= -this.ID; fut<=this.ID;fut+=this.ID){
-                var=fut+neigh;
+        for(int neigh = -1; neigh <= 1; neigh++){
+            for (int fut= -height; fut<=height;fut+=height){
+                var=fut+neigh+ID;
                 if (tobe.containsKey(var)){
+                    if (var!=ID){
                     tobe.get(var).iter();
+                    }
                 }
                 else{
-                    tobe.put(var, new Cell(var));
+                    tobe.put(var, new Cell(var, board));
                 }
             }
         }
     }
-    public void move(){
-        tobe.put(this.ID, this);
-        process.remove(this.ID, this);
+    void check(){
+        if (cons==2||cons==3){state=true;}
+        else{die();}
     }
-    public void iter(){
-        this.cons+=1;
-    }
-    public void kill(){
-        this.state = false;
-    }
-    public void die(){
-        tobe.remove(this.ID, this);
-    }
+    public void iter(){cons++;}
+    public void die(){tobe.remove(ID);}
 }
