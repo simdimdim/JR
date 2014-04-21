@@ -4,37 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Main {
-    
+    boolean running=true;
     int board=0;
     int height = 20;
+    int width = 20;
     static List<Board> all = new ArrayList();
     public void run(){ 
         create(); 
-        while (running){ 
-             
+        for (int s=0; s<4; s++) { 
             // use this instead of calling all.get[x] every time 
             Board b = all.get(board); 
                          
             // process cells 
-            b.process.values().stream().forEach(cell -> { 
-                cell.spawn(b.height,b.height); 
-            }); 
-            
-            // prepare for next cycle 
-            //alive check and clearing duties
-            b.tobe.values().stream().forEach(cell -> { 
-                cell.check(); 
-            });
-            b.process.empty();
-            b.tobe.clear();
- 
+            b.step(); 
+
             // stop simulation if no cells remain or eventual input
-            if(b.tobe.isEmpty()) {
-                break;}
+            if(b.pq.isEmpty()) {
+                break;
+            }
         } 
     }
     private void create(){
         board=all.size()+1; //needs work (for deleting boards)
-        all.add(new Board(height,height));
+        all.add(new Board(width,height));
     }
 }

@@ -5,38 +5,37 @@
  */ 
  
 package jr; 
- 
+
+import java.util.ArrayList;
+import java.util.List;
+
 /** 
  * Area for the Cells. 
  * 
  * @author thedoctor 
  */ 
-class Board{
-    boolean running=true;
-    final int width ;
-    final int height; 
-    Cell[][] process; 
-    Cell[][] tobe; 
-
+public class Board{
+    final int width;
+    final int height;
+    boolean running;
+    Cell[][] tobe;
+    Cell[][] process;
+    ArrayList<List> pq = new ArrayList(); //to be processed
+    ArrayList<List> tq = new ArrayList(); //for the next step
+    
     /**  
      * Constructor. Specified size can be changed later. 
      * @param H height in number of cells 
      * @param W width in number of cells 
      */ 
-    public Board() {
-        boolean running=true;
-        width = 20; 
-        height = 20; 
-        this.tobe = new Cell[width][height];
-        this.process = new Cell[width][height];  
-    } 
     public Board(int x, int y) {
-        boolean running=true;
-        this.tobe = new Cell[x][y];
-        this.process = new Cell[x][y];
-        width = x; 
-        height = y; 
+        width=x ;
+        height=y;
+        running=true;
+        tobe = new Cell[x][y];
+        process = new Cell[x][y];
     }
+    
     public void extendandremap(int x,int y){
         Cell[][] newtobe = new Cell[width+2*x][height+2*y];
         Cell[][] newprocess = new Cell[width+2*x][height+2*y];
@@ -49,20 +48,22 @@ class Board{
         process=newprocess;
         tobe=newtobe;       
     }
+    
     public void step(){
-        for (int w = 0;w<=width;w++){
-            for (int h = 0; h<= height; h++){
+        for (int x = 0;x<=width;x++){
+            for (int y = 0; y<= height; y++){
                 if (running){break;}
-                process[w][h].check(x,y);
+                process[x][y].check(this,x,y);
             }
         }
-        if (queue.isEmpty()){
-            endstep();
-        }
+        if (tq.isEmpty()) endstep();
     }
     public void endstep(){
         eprocess();
+        process=tobe;
+        etobe();
     }
+    
     public void eprocess(){
         for (int w = 0;w<=width;w++){
             for (int h = 0; h<= height; h++){
@@ -77,27 +78,23 @@ class Board{
             }
         } 
     }
-    public void equeue(){
-        //
-    }
 
-       /**  
-     * Prints the state of the board into human sensible String output.   
-     * <p>  
-     * Use for debug.  
-     * @return string representation of the board  
-     */  
-        @Override  
-        public String toString() {
-            String out = "";
-            //wait call here
-            for (int w = 0;w<=width;w++){
-                for (int h = 0; h<= height; h++){
-                    if(process[w][h].alive){out +='1';}
-                    else{out +='0';}
-                }
-                out += "\n";
+/**  
+ * Prints the state of the board into human sensible String output.   
+ * <p>  
+ * Use for debug.  
+ * @return string representation of the board  
+ */  
+    @Override  
+    public String toString() {
+        String out = "";
+        //wait call here
+        for (int x = 0;x<=width;x++){
+            for (int y = 0; y<= height; y++){
+                out += process[x][y].getStateAsInt();
             }
-            return out;  
-        } 
+            out += "\n";
+        }
+        return out;  
     } 
+} 

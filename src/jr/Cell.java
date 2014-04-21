@@ -7,7 +7,8 @@
 package jr;
 
 //import static jr.Cell.State.*;
-import static jr.Main.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,39 +18,31 @@ public class Cell {
     //State alive = POTENT;
     boolean alive = false;
     short cons=1;
-    int ID;
-    final int board;
-    public Cell(int height, int width, int board){
-        this.ID=generateHash(height, width);
-        this.board=board;
+    List<Integer> ID = new ArrayList();
+    
+    public Cell(int height, int width){
+        ID.add(height, width);
     }
-    public Cell(int ID, int board){
-        this.ID=ID;
-        this.board=board;
-    } 
-    public void spawn(int height, int width){
-        int var;
-        for(int neigh = -1; neigh <= 1; neigh++){
-            for (int fut= -height; fut<=height;fut+=height){
-                var=fut+neigh+ID;
-                if (var<0){continue;}
-                if (all.get(board).tobe.containsKey(var)){
-                    all.get(board).tobe.get(var).iter();
-                }
-                else{
-                    all.get(board).tobe.put(var, new Cell(var,board));
-                }
+    
+    public void spawn(Board board,int height, int width){
+        for(int x = width-1; x <= width+1; x++){
+            for (int y= height-1; y<=height+1;y++){
+                if (x==0 && y==0){
+                    board.tobe[x][y].alive=(cons==2||cons==3);
+                    board.pq.add(ID);}
+                if (board.tobe[x][y]!=null)
+                    board.tobe[x][y].iter();
+                else board.tobe[x][y]=new Cell(x,y);
             }
         }
-        all.get(board).tobe.get(ID).alive=cons==2||cons==3;
-        all.get(board).process.remove(ID);
     }
-    public void check(){
+    public void check(Board board,int x, int y){
         if (cons==2||cons==3){
-            all.get(board).tobe.get(ID).alive=true;
+            board.tobe[x][y].alive=true;
+            board.tq.add(ID);
         }
         else {
-            die();
+            die(board);
         }
     }
     public void iter(){
@@ -58,34 +51,12 @@ public class Cell {
     public void deter(){
         cons--;
     }
-    public void die(){
-        all.get(board).tobe.remove(ID);
+    public void die(Board board){
+        board.tobe[ID.get(0)][ID.get(1)]=null;
     }
     
-    public int generateHash(int height, int width){
-        return height+width*height;
-    }
-    public void generateNewHash(int height, int width){
-        ID=height+width*height;
-    }
-    
-    @Override 
-    public int hashCode() {
-        return ID;
-    }
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Cell other = (Cell) obj;
-        return this.ID !=other.ID;
-    }
     public int getStateAsInt() {
-    return alive==true ? 1 : 0;
+        return alive==true ? 1 : 0;
     }
     /*
     public static enum State {
