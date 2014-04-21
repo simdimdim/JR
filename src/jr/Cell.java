@@ -17,17 +17,22 @@ public class Cell {
     //State alive = POTENT;
     boolean alive = false;
     short cons=1;
-    final int ID;
+    int ID;
     final int board;
+    public Cell(int height, int width, int board){
+        this.ID=generateHash(height, width);
+        this.board=board;
+    }
     public Cell(int ID, int board){
         this.ID=ID;
         this.board=board;
-    }   
-    public void spawn(int height){
+    } 
+    public void spawn(int height, int width){
         int var;
         for(int neigh = -1; neigh <= 1; neigh++){
             for (int fut= -height; fut<=height;fut+=height){
                 var=fut+neigh+ID;
+                if (var<0){continue;}
                 if (all.get(board).tobe.containsKey(var)){
                     all.get(board).tobe.get(var).iter();
                 }
@@ -40,7 +45,6 @@ public class Cell {
         all.get(board).process.remove(ID);
     }
     public void check(){
-        if (ID<0){die();}
         if (cons==2||cons==3){
             all.get(board).tobe.get(ID).alive=true;
         }
@@ -58,8 +62,11 @@ public class Cell {
         all.get(board).tobe.remove(ID);
     }
     
-    public int generateHash(int x, int y){
-        return x+y*x;
+    public int generateHash(int height, int width){
+        return height+width*height;
+    }
+    public void generateNewHash(int height, int width){
+        ID=height+width*height;
     }
     
     @Override 

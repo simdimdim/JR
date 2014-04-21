@@ -17,7 +17,7 @@ class Main {
                          
             // process cells 
             b.process.values().stream().forEach(cell -> { 
-                cell.spawn(b.height); 
+                cell.spawn(b.height,b.height); 
             }); 
             
             // prepare for next cycle 
