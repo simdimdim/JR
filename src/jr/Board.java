@@ -13,7 +13,7 @@ package jr;
  */ 
 class Board{
     boolean running=true;
-    final int width ; 
+    final int width ;
     final int height; 
     Cell[][] process; 
     Cell[][] tobe; 
@@ -61,25 +61,24 @@ class Board{
         }
     }
     public void endstep(){
-        empty.process();
+        eprocess();
     }
-    static public class empty{
-        static int width ; 
-        static int height;
-        empty(int x, int y){
-            width=x;
-            height=y;
-        }
-        static public void process(){
-            for (int w = 0;w<=width;w++){
-                for (int h = 0; h<= height; h++){
-                    process[w][h]=null;
-                }
+    public void eprocess(){
+        for (int w = 0;w<=width;w++){
+            for (int h = 0; h<= height; h++){
+                process[w][h]=null;
+            }
         } 
-        }
     }
-    public void empty(){
-        
+    public void etobe(){
+        for (int w = 0;w<=width;w++){
+            for (int h = 0; h<= height; h++){
+                tobe[w][h]=null;
+            }
+        } 
+    }
+    public void equeue(){
+        //
     }
 
        /**  
