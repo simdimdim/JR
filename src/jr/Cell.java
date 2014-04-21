@@ -7,8 +7,6 @@
 package jr;
 
 //import static jr.Cell.State.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -18,33 +16,24 @@ public class Cell {
     //State alive = POTENT;
     boolean alive = false;
     short cons=1;
-    List<Integer> ID = new ArrayList();
+    int[] xy = new int[2];
     
-    public Cell(int height, int width){
-        ID.add(height, width);
+    public Cell(Board board,int height, int width){
+        xy[0]=height;
+        xy[1]=width;
     }
     
-    public void spawn(Board board,int height, int width){
-        for(int x = width-1; x <= width+1; x++){
-            for (int y= height-1; y<=height+1;y++){
-                if (x==0 && y==0){
-                    board.tobe[x][y].alive=(cons==2||cons==3);
-                    board.pq.add(ID);}
-                if (board.tobe[x][y]!=null)
-                    board.tobe[x][y].iter();
-                else board.tobe[x][y]=new Cell(x,y);
-            }
-        }
-    }
     public void check(Board board,int x, int y){
+        //System.out.println(board.tq);
         if (cons==2||cons==3){
-            board.tobe[x][y].alive=true;
-            board.tq.add(ID);
+            board.curboard[x][y]=new Cell(board,x,y);
+            if (!board.tq.contains(xy))board.pq.add(xy);
         }
         else {
             die(board);
         }
     }
+    
     public void iter(){
         cons++;
     }
@@ -52,7 +41,17 @@ public class Cell {
         cons--;
     }
     public void die(Board board){
-        board.tobe[ID.get(0)][ID.get(1)]=null;
+        board.tobeboard[xy[0]][xy[1]]=null;
+    }
+    
+    /**
+    For resting purposes and maybe adding alive cells in the future
+    **/
+    public int[] add(Board board){
+        alive=true;
+        board.curboard[xy[0]][xy[1]]=this;
+        board.curboard[xy[0]][xy[1]].cons=2;
+        return xy;
     }
     
     public int getStateAsInt() {
