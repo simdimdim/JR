@@ -11,8 +11,8 @@ package jr;
  * 
  * @author thedoctor 
  */ 
-class Board{ 
-     
+class Board{
+    boolean running=true;
     final int width ; 
     final int height; 
     Cell[][] process; 
@@ -24,18 +24,20 @@ class Board{
      * @param W width in number of cells 
      */ 
     public Board() {
+        boolean running=true;
         width = 20; 
         height = 20; 
         this.tobe = new Cell[width][height];
         this.process = new Cell[width][height];  
     } 
-    public Board(int x, int y) { 
+    public Board(int x, int y) {
+        boolean running=true;
         this.tobe = new Cell[x][y];
         this.process = new Cell[x][y];
         width = x; 
         height = y; 
     }
-    public void extendandremap(int x,int y,int extend){
+    public void extendandremap(int x,int y){
         Cell[][] newtobe = new Cell[width+2*x][height+2*y];
         Cell[][] newprocess = new Cell[width+2*x][height+2*y];
         for (int w = 0;w<=width;w++){
@@ -47,7 +49,39 @@ class Board{
         process=newprocess;
         tobe=newtobe;       
     }
-    
+    public void step(){
+        for (int w = 0;w<=width;w++){
+            for (int h = 0; h<= height; h++){
+                if (running){break;}
+                process[w][h].check(x,y);
+            }
+        }
+        if (queue.isEmpty()){
+            endstep();
+        }
+    }
+    public void endstep(){
+        empty.process();
+    }
+    static public class empty{
+        static int width ; 
+        static int height;
+        empty(int x, int y){
+            width=x;
+            height=y;
+        }
+        static public void process(){
+            for (int w = 0;w<=width;w++){
+                for (int h = 0; h<= height; h++){
+                    process[w][h]=null;
+                }
+        } 
+        }
+    }
+    public void empty(){
+        
+    }
+
        /**  
      * Prints the state of the board into human sensible String output.   
      * <p>  

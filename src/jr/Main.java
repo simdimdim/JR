@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Main {
-    boolean running=true;
+    
     int board=0;
     int height = 20;
     static List<Board> all = new ArrayList();
@@ -25,7 +25,7 @@ class Main {
             b.tobe.values().stream().forEach(cell -> { 
                 cell.check(); 
             });
-            b.process.putAll(b.tobe);
+            b.process.empty();
             b.tobe.clear();
  
             // stop simulation if no cells remain or eventual input
