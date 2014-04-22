@@ -16,6 +16,7 @@ class Main {
             System.out.println(b.tq);
             // curboard cells 
             b.step();
+            System.out.println("step "+s);
             
             // stop simulation if no cells remain or eventual input
             if(b.tq.isEmpty()) {
@@ -29,7 +30,6 @@ class Main {
                 System.out.println(b.tobeboard);
                 System.out.println("tq \n "+b.tq);
                 */
-                System.out.println("step "+s);
                 break;
             }
         } 
@@ -39,17 +39,21 @@ class Main {
         all.add(new Board(width,height));
         
         Board b = all.get(board); 
-        b.pq.add(new Cell(b,2,1).add(b));
-        b.curboard[2][1].iter();
         b.pq.add(new Cell(b,2,2).add(b));
         b.curboard[2][2].iter();
-        b.pq.add(new Cell(b,1,1).add(b));
-        b.curboard[1][1].iter();
-        b.pq.add(new Cell(b,1,2).add(b));
-        b.curboard[1][2].iter();
+        b.curboard[2][2].alive=true;
+        b.pq.add(new Cell(b,2,3).add(b));
+        b.curboard[2][3].iter();
+        b.curboard[2][3].alive=true;
+        b.pq.add(new Cell(b,2,1).add(b));
+        b.curboard[2][1].iter();
+        b.curboard[2][1].alive=true;
+        //b.pq.add(new Cell(b,3,3).add(b));
+        //b.curboard[3][3].iter();
+        //b.curboard[3][3].alive=true;
         run();
     }
     public static void main(String[] args) {
-        Main.create(6,6);
+        Main.create(5,5);
     }
 }

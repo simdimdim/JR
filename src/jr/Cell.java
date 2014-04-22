@@ -22,16 +22,12 @@ public class Cell {
         xy[0]=height;
         xy[1]=width;
     }
-    
-    public void check(Board board,int x, int y){
-        //System.out.println(board.tq);
-        if (cons==2||cons==3){
-            board.curboard[x][y]=new Cell(board,x,y);
-            if (!board.tq.contains(xy))board.pq.add(xy);
-        }
-        else {
-            die(board);
-        }
+
+    public Cell check(Board board,int x, int y){
+        if (!alive&&cons==3) alive=true;
+        if (alive&&(cons==2||cons==3)) alive=true;
+        if (!alive) return null;
+        else return this;
     }
     
     public void iter(){
@@ -41,6 +37,7 @@ public class Cell {
         cons--;
     }
     public void die(Board board){
+        
         board.tobeboard[xy[0]][xy[1]]=null;
     }
     
@@ -51,7 +48,7 @@ public class Cell {
         alive=true;
         board.curboard[xy[0]][xy[1]]=this;
         board.curboard[xy[0]][xy[1]].cons=2;
-        return xy;
+        return board.curboard[xy[0]][xy[1]].xy;
     }
     
     public int getStateAsInt() {

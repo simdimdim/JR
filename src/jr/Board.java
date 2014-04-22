@@ -6,8 +6,8 @@
  
 package jr; 
 
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
 
 /** 
  * Area for the Cells. 
@@ -20,8 +20,8 @@ public class Board{
     boolean running;
     Cell[][] tobeboard;
     Cell[][] curboard;
-    Queue<int[]> pq = new ArrayDeque(); //to be curboarded
-    Queue<int[]> tq = new ArrayDeque(); //for the next step
+    List<int[]> pq = new ArrayList(); //to be curboarded
+    List<int[]> tq = new ArrayList(); //for the next step
     
     /**  
      * Constructor. Specified size can be changed later. 
@@ -51,50 +51,61 @@ public class Board{
         tobeboard=newtobeboard;       
     }
     
-    public void spawn(Board board,int x, int y){
-        int[] ID = new int[2];
-        for(int w = x-1; w <= x+1; w++){
-            for (int h= y-1; h<=y+1;h++){
-                if (w<0||h<0)continue;
-                ID[0]=w;
-                ID[1]=h;
-                if (board.tobeboard[w][h]==null){
-                    board.tobeboard[w][h]=new Cell(board,w,h);
-                    if (!board.tq.contains(ID))board.tq.add(ID);
-                }
-                else {
-                    if (w==x && h==y){
-                        board.tobeboard[x][y]=new Cell(this,x,y);
-                        board.tobeboard[x][y].cons=2;}
-                    else board.tobeboard[w][h].iter();
-                }
+    public void check(int x,int y){
+        short cons=0;
+        for (int w=x-1;w<=x+1;w++){
+            for (int h=y-1;h<=y+1;h++){
+                if (w<0||h<0) continue;
+                if (w==x&&h==y) continue;
+                if (curboard[w][h]!=null) cons++;
             }
-        }    
+        }
+        tobeboard[x][y]=new Cell(this,x,y);
+        tobeboard[x][y].cons=cons;
+        if ((cons==2||cons==3)&&curboard[x][y]!=null)
+            tobeboard[x][y].alive=true;
     }
     
     public void step(){
-        pq.stream().forEach((int[] id) -> {
-            spawn(this,id[0],id[1]);
+        pq.stream().forEach((int[] xy) -> {
+            if (!tq.contains(xy)){
+                for (int x=xy[0]-1;x<=xy[0]+1;x++){
+                    for (int y=xy[1]-1;y<=xy[1]+1;y++){
+                        if (x<0||y<0) continue;
+                        if (curboard[x][y]!=null) check(x,y);
+                        tq.add(xy);
+                        if (x==xy[0]&&y==xy[1]) 
+                            tobeboard[x][y]=curboard[x][y];
+                    }
+                }
+            }
         });
         //System.out.println(pq);
         //System.out.println(tq);
-        System.out.println(" \n"+this.toString());
         endstep();
-        System.out.println("after endstep"+this.toString());
+        System.out.println("after endstep \n"+this.toString());
     }
     public void endstep(){
         pq.clear();
         filter();
+        System.out.println(" \n"+this.toString());
+        System.out.println("tobeboard \n"+this.tobe());
         ecurboard();
         curboard=tobeboard;
         etobeboard();
     }
     public void filter(){
+        System.out.print("tq \n");
+        System.out.println(tq.get(0)[0]+" "+tq.get(0)[1]);
         tq.stream().forEach((int[] id) -> {
-            curboard[id[0]][id[1]]=new Cell(this,id[0],id[1]);
-            
+            tobeboard[id[0]][id[1]]=
+                    tobeboard[id[0]][id[1]].check(this,id[0],id[1]);
+            if (!pq.contains(id)&&curboard[id[0]][id[1]].alive) pq.add(id);
             
         });
+        System.out.print("pq \n");
+        System.out.println(pq);
+        tq.clear();
     }
     public void ecurboard(){
         for (int w = 0;w<=width-1;w++){
@@ -124,10 +135,29 @@ public class Board{
         for (int x = 0;x<=width-1;x++){
             for (int y = 0; y<= height-1; y++){
                 if (curboard[x][y]==null)out +='0';
+                //else out += "1";
                 else out += curboard[x][y].cons;
             }
             out += "\n";
         }
         return out;  
-    } 
+    }
+    public String tobe(){
+       String out = "";
+        //wait call here
+        for (int x = 0;x<=width-1;x++){
+            for (int y = 0; y<= height-1; y++){
+                if (tobeboard[x][y]==null)out +='0';
+                /*else {
+                    if (tobeboard[x][y].alive) {
+                        out += "1";}
+                    else {
+                        out +='0';}
+                }  */ 
+                else out += tobeboard[x][y].cons;
+            }
+            out += "\n";
+        }
+        return out; 
+    }
 } 
