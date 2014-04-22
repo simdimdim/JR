@@ -14,16 +14,18 @@ class Main {
             BoardManager b = all.get(board);
             
             // curboard cells 
+            /*
+            System.out.println("cur size:"+b.cur.size());
             System.out.println(b.acheck(b.cur));
             System.out.println(b.ccheck(b.cur));
             System.out.println(b.cur.toString());
             System.out.println(b.cur.getPoint(2, 2));
             System.out.println("step :"+s);
+            */
             b.step();
             
-            
             // stop simulation if no cells remain or eventual input
-            if(b.next.isEmpty()) {
+            if(b.next.board.isEmpty()) {
                 System.out.println("Out of cells");
                 break;
             }
@@ -35,12 +37,9 @@ class Main {
         
         BoardManager b = all.get(board);
         //Add some cells
-        b.cur.put(new Cell(2,1));
-        System.out.println(b.cur.size());
-        b.cur.put(new Cell(2,2));
-        System.out.println(b.cur.size());
-        b.cur.put(new Cell(2,3));
-        System.out.println(b.cur.size());
+        b.cur.put(new Cell(1,1));
+        b.cur.put(new Cell(1,2));
+        b.cur.put(new Cell(1,3));
         b.update();
         run();
     }

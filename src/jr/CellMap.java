@@ -47,7 +47,7 @@ public class CellMap extends HashMap<Point, Cell>{
     public void empty(){
         board.clear();
     }
-    public Cell getCell(int x, int y){
+    public Cell get(int x, int y){
         cellcoords= new Point(x,y);
         return board.get(cellcoords);
     }
@@ -82,8 +82,8 @@ public class CellMap extends HashMap<Point, Cell>{
     public boolean contains(Cell cell){
         return board.containsValue(cell);
     }
-    public boolean getstate(int x, int y){
-        return contains(x,y)&&getCell(x,y).alive;
+    public boolean getState(int x, int y){
+        return contains(x,y)&&get(x,y).alive;
     }
     public CellMap copy(){
         return this;

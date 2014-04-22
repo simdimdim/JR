@@ -6,8 +6,6 @@
 
 package jr;
 
-//import static jr.Cell.State.*;
-
 import java.awt.Point;
 
 
@@ -29,8 +27,12 @@ public class Cell extends Point{
         return this;
     }
     public boolean notdead(){
-        System.out.println("Checking");
-        return ((!alive&&connections==3)||(alive&&(connections==2||connections==3)));
+//        System.out.println("Checking cons:"+connections);  //check connections
+//        System.out.println("Checking alive:"+ //check state
+//                ((!alive&&connections==3)
+//                        ||(alive&&(connections==2||connections==3))));
+        return ((!alive&&connections==3)||
+                (alive&&(connections==2||connections==3)));
     }
     
     public int getStateAsInt() {
