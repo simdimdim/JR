@@ -8,22 +8,24 @@ package jr;
 
 //import static jr.Cell.State.*;
 
+import java.awt.Point;
+
+
 /**
  *
  * @author thedoctor
  */
-public class Cell {
+public class Cell extends Point{
     //State alive = POTENT;
     boolean alive = false;
     short cons=1;
-    int[] xy = new int[2];
     
-    public Cell(Board board,int height, int width){
-        xy[0]=height;
-        xy[1]=width;
+    public Cell(BoardManger board,int height, int width){
+        x=height;
+        y=width;
     }
 
-    public Cell check(Board board,int x, int y){
+    public Cell check(BoardManger board,int x, int y){
         if (!alive&&cons==3) alive=true;
         if (alive&&(cons==2||cons==3)) alive=true;
         if (!alive) return null;
@@ -36,19 +38,18 @@ public class Cell {
     public void deter(){
         cons--;
     }
-    public void die(Board board){
-        
-        board.tobeboard[xy[0]][xy[1]]=null;
+    public void die(BoardManger board){
+        board.next.put(x,y,null);
     }
     
     /**
     For resting purposes and maybe adding alive cells in the future
     **/
-    public int[] add(Board board){
+    public Point add(BoardManger board){
         alive=true;
-        board.curboard[xy[0]][xy[1]]=this;
-        board.curboard[xy[0]][xy[1]].cons=2;
-        return board.curboard[xy[0]][xy[1]].xy;
+        board.cur.put(this);
+        board.cur.get(this).cons=2;
+        return board.cur.get(x,y).getLocation();
     }
     
     public int getStateAsInt() {
