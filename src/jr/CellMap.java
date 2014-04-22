@@ -99,6 +99,7 @@ public class CellMap extends HashMap<Point, Cell>{
         CellMap newboard = getExtendedRemap(x,y);
         putAll(newboard);
     }
+    
 /**  
  * Prints the state of the board into human sensible String output.   
  * <p>  

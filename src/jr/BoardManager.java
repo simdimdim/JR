@@ -52,6 +52,10 @@ public class BoardManager{
         next.empty();
         update();
     }
+    public boolean spawn(int x, int y){
+        
+        return true;
+    }
     public void step(){
         cur.board.values().stream().forEach((Cell cell)->{
             //System.out.print("step : "+cell); //cells to be processed
@@ -62,7 +66,7 @@ public class BoardManager{
     }
     public void update(){
         cur.board.values().stream().forEach((Cell cell)->{
-            cell.neighbours(neighbourCheck(cell.x,cell.y));
+            cell.nighbs(neighbourCheck(cell.x,cell.y));
             if (cell.notdead())cell.alive=true; 
             //System.out.println(cell.getStateAsInt()); //check if updating
         });  

@@ -22,7 +22,7 @@ public class Cell extends Point{
         this.x=x;
         this.y=y;
     }
-    public Cell neighbours(int cons){
+    public Cell nighbs(int cons){
         connections=cons;
         return this;
     }
