@@ -85,8 +85,8 @@ public class CellMap extends HashMap<Point, Cell>{
     public boolean getState(int x, int y){
         return contains(x,y)&&get(x,y).alive;
     }
-    public CellMap copy(){
-        return this;
+    public HashMap copy(){
+        return this.board;
     }
     public CellMap getExtendedRemap(int x,int y){
         CellMap newboard = new CellMap(x,y);
