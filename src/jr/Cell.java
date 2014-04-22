@@ -7,7 +7,7 @@
 package jr;
 
 import java.awt.Point;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +26,7 @@ public class Cell extends Point{
         return this;
     }
     public List getNeighbours(){
-        HashMap<Point> neighbours = new HashMap<>();
+        List<Point> neighbours = new ArrayList<>();
         for (int w=x-1;w<=x+1;w++){
             for (int h=y-1;h<=y+1;h++){
                 if (w<0||h<0) continue;
