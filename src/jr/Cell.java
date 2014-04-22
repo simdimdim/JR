@@ -7,17 +7,16 @@
 package jr;
 
 import java.awt.Point;
-
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
  * @author thedoctor
  */
 public class Cell extends Point{
-    //State alive = POTENT;
     boolean alive = true;
     int connections=1;
-    
     public Cell(int x, int y){
         this.x=x;
         this.y=y;
@@ -26,24 +25,21 @@ public class Cell extends Point{
         connections=cons;
         return this;
     }
-    public boolean notdead(){
-//        System.out.println("Checking cons:"+connections);  //check connections
-//        System.out.println("Checking alive:"+ //check state
-//                ((!alive&&connections==3)
-//                        ||(alive&&(connections==2||connections==3))));
-        return ((!alive&&connections==3)||
-                (alive&&(connections==2||connections==3)));
+    public List getNeighbours(){
+        HashMap<Point> neighbours = new HashMap<>();
+        for (int w=x-1;w<=x+1;w++){
+            for (int h=y-1;h<=y+1;h++){
+                if (w<0||h<0) continue;
+                if (w==x&&h==y) continue;
+                neighbours.add(new Point(w,h));
+            }
+        }
+        return neighbours;
     }
-    
+    public boolean notdead(){
+        return (connections==3||(alive&&connections==2));
+    }
     public int getStateAsInt() {
         return alive==true ? 1 : 0;
     }
-    /*
-    public static enum State {
-        ALIVE,
-        POTENT;
-        public static State neg(State s) {
-            return s==ALIVE ? POTENT : ALIVE;
-        }
-    }*/
 }

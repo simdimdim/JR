@@ -6,6 +6,8 @@
  
 package jr; 
 
+import java.awt.Point;
+
 /** 
  * Area for the Cells. 
  * 
@@ -28,17 +30,6 @@ public class BoardManager{
         cur.empty();
         next.empty();
     }
-    public short neighbourCheck(int x, int y){
-        short con=0;
-        for (int w=x-1;w<=x+1;w++){
-            for (int h=y-1;h<=y+1;h++){
-                if (w<0||h<0) continue;
-                if (w==x&&h==y) continue;
-                if (cur.getState(w,h)) con++;
-            }
-        }
-        return con;
-    }
     public void endstep(){
         /*
         System.out.println("1cur size:"+cur.board.size());
@@ -50,10 +41,14 @@ public class BoardManager{
         cur.empty();
         cur.putAll(next);
         next.empty();
-        update();
+        //update();
     }
     public boolean spawn(int x, int y){
-        
+        cur.board.values().stream().forEach((Cell cell)->{
+            cell.getNeighbours().stream().forEach((Point p)->{
+                
+            });
+        });
         return true;
     }
     public void step(){
@@ -63,14 +58,14 @@ public class BoardManager{
                 next.put(cell);
         });
         endstep();
-    }
+    }/*
     public void update(){
         cur.board.values().stream().forEach((Cell cell)->{
             cell.nighbs(neighbourCheck(cell.x,cell.y));
             if (cell.notdead())cell.alive=true; 
             //System.out.println(cell.getStateAsInt()); //check if updating
         });  
-    }
+    }*/
     public String acheck(CellMap board){
        String out = "";
         //wait call here
