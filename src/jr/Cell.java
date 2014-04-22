@@ -17,39 +17,20 @@ import java.awt.Point;
  */
 public class Cell extends Point{
     //State alive = POTENT;
-    boolean alive = false;
-    short cons=1;
+    boolean alive = true;
+    int connections=1;
     
-    public Cell(BoardManger board,int height, int width){
-        x=height;
-        y=width;
+    public Cell(int x, int y){
+        this.x=x;
+        this.y=y;
     }
-
-    public Cell check(BoardManger board,int x, int y){
-        if (!alive&&cons==3) alive=true;
-        if (alive&&(cons==2||cons==3)) alive=true;
-        if (!alive) return null;
-        else return this;
+    public Cell neighbours(int cons){
+        connections=cons;
+        return this;
     }
-    
-    public void iter(){
-        cons++;
-    }
-    public void deter(){
-        cons--;
-    }
-    public void die(BoardManger board){
-        board.next.put(x,y,null);
-    }
-    
-    /**
-    For resting purposes and maybe adding alive cells in the future
-    **/
-    public Point add(BoardManger board){
-        alive=true;
-        board.cur.put(this);
-        board.cur.get(this).cons=2;
-        return board.cur.get(x,y).getLocation();
+    public boolean notdead(){
+        System.out.println("Checking");
+        return ((!alive&&connections==3)||(alive&&(connections==2||connections==3)));
     }
     
     public int getStateAsInt() {
