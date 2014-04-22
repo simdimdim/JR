@@ -13,8 +13,8 @@ package jr;
  */ 
 public class BoardManager{
     boolean running;
-    CellMap cur;
-    CellMap next;
+    final CellMap cur;
+    final CellMap next;
     
     /**  
      * Constructor. Specified size can be changed later. 
@@ -53,11 +53,37 @@ public class BoardManager{
         update();
     }
     public void step(){
-        cur.board.values().stream().forEach((Cell cell)->{
-            //System.out.print("step : "+cell); //cells to be processed
-            if (cell.notdead()){}
-                next.put(cell);
-        });
+//        cur.board.values().stream().forEach((Cell cell)->{
+//            //System.out.print("step : "+cell); //cells to be processed
+//            if (cell.notdead()){}
+//                next.put(cell);
+//        });
+        System.out.println(cur.toString());
+        cur.board.values().stream()
+                .flatMap((Cell t) -> t.getNeighbours().stream())    // get all potent locations
+                .distinct()                                         // filter duplicates
+                .forEach(c->{                                       // check
+                    System.out.println(c.x+""+c.y);
+                    // get neighbour count
+                    c.connections=0;
+                    for(Cell n: c.getNeighbours()) {
+                        if(cur.board.containsKey(n.getLocation()))
+                            c.connections++;
+//                        System.out.println(n.x + " "+ n.y + " " + cur.board.containsKey(n.getLocation()));
+                    }
+                    
+                    System.out.println("potential " + c.getLocation().x + " "+c.getLocation().y + " " + c.connections);
+                    
+                    // handle alive cells alive
+                    if(cur.board.containsKey(c.getLocation()) && c.stayAlive())
+                        next.board.put(c.getLocation(), new Cell(c.x, c.y));
+                    else
+                        if(c.connections==3)
+                            next.board.put(c.getLocation(), new Cell(c.x, c.y));
+                            
+                });
+        update();
+        System.out.println(next.toString());
         endstep();
     }
     public void update(){

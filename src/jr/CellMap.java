@@ -107,6 +107,19 @@ public class CellMap extends HashMap<Point, Cell>{
  */  
     @Override
     public String toString() {
-        return getClass().getName()+"[width="+width+",height="+height+"]";
+//        return getClass().getName()+"[width="+width+",height="+height+"]";
+        
+        String out = "";
+        for(int i = 1; i<height; i++) {
+            for(int j = 1; j<width; j++) {
+                Cell c = board.get(new Point(i, j));
+                if(c==null)
+                    out+= "x ";
+                else
+                 out += c.connections + " ";
+            }
+            out +="\n";
+        }
+        return out;
     }
 }

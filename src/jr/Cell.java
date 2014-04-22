@@ -7,6 +7,8 @@
 package jr;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -16,7 +18,7 @@ import java.awt.Point;
 public class Cell extends Point{
     //State alive = POTENT;
     boolean alive = true;
-    int connections=1;
+    int connections=0;
     
     public Cell(int x, int y){
         this.x=x;
@@ -34,7 +36,9 @@ public class Cell extends Point{
         return ((!alive&&connections==3)||
                 (alive&&(connections==2||connections==3)));
     }
-    
+    public boolean stayAlive(){
+        return connections==2|| connections==3;
+    }
     public int getStateAsInt() {
         return alive==true ? 1 : 0;
     }
@@ -46,4 +50,35 @@ public class Cell extends Point{
             return s==ALIVE ? POTENT : ALIVE;
         }
     }*/
+    
+    public List<Cell> getNeighbours() {
+        List<Cell> out = new ArrayList();
+        for(int i=1; i<=9; i++) {
+            int xx = (i-1)/3+1;
+            int yy = i%3+1;
+//            if(!(xx==2 && yy==2)) {
+                Cell c = new Cell(x+xx-2, y+yy-2);
+                out.add(c);
+//            }
+        }
+        return out;
+    }
+
+    @Override
+    public int hashCode() {
+        return x*1000+y;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cell other = (Cell) obj;
+        return true;
+    }
+    
 }
