@@ -32,6 +32,7 @@ class Main {
                     board.running=false;
                     continue;}
             }
+            System.out.print("board"+board.cur.acheck());
             board.cur.empty();
             board.cur.putAll(board.next);
             board.next.empty();
@@ -40,8 +41,14 @@ class Main {
     static public void create(int width,int height){
         int n=all.size();
         all.put(n,new Board(width,height,n));
+        Board b = all.get(n);
+        b.cur.add(1,1);
+        b.cur.add(1,2);
+        b.cur.add(2,1);
+        b.cur.add(2,2);
     }
     public static void main(String[] args) {
+        create(5,5);
         while (running) {
             step();}
     }
