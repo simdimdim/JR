@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class Cell extends Point{
     boolean alive = true;
-    short mates=0;
     public Cell(int x, int y){
         this.x=x;
         this.y=y;
@@ -24,14 +23,6 @@ public class Cell extends Point{
     public Cell(Point p){
         x=p.x;
         y=p.y;
-    }
-    public Cell nighbs(short mate){
-        mates=mate;
-        return this;
-    }
-    public Cell live(){
-        alive=true;
-        return this;
     }
     /**Returns a List Points of neighbors
      * 
@@ -42,13 +33,11 @@ public class Cell extends Point{
         for (int w=x-1;w<=x+1;w++){
             for (int h=y-1;h<=y+1;h++){
                 if (w<0||h<0) continue;
+                //if (w==x||h==y) continue;
                 neighbours.add(new Point(w,h));
             }
         }
         return neighbours;
-    }
-    public boolean notdead(){
-        return (mates==3||(alive&&mates==2));
     }
     public int getStateAsInt() {
         return alive==true ? 1 : 0;
