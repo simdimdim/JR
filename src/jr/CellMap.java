@@ -95,6 +95,43 @@ public class CellMap extends HashMap<Point, Cell>{
         CellMap newboard = getExtendedRemap(x,y);
         putAll(newboard);
     }
+    public short check(Point p){
+        short neighbours = 0;
+        for (int w=p.x-1;w<=p.x+1;w++){
+            for (int h=p.y-1;h<=p.y+1;h++){
+                if (w<0||h<0) continue;
+                if (w==p.x&&h==p.y) continue;
+                if (contains(w,h)){
+                    neighbours++;
+                }
+            }
+        }
+        return neighbours; 
+    }
+    /*For debuging purposes*/
+    public String acheck(){
+       String out = "";
+        for (int w = 0;w<=width-1;w++){
+            for (int h = 0; h<= height-1; h++){
+                if (!contains(w,h))out +='0';
+                else {
+                    if (getState(w,h)) out += "1";
+                    else out +='0';}  
+            }
+            out += "\n";
+        }
+        return out; 
+    }
+    public String ccheck(){
+        String out = "";
+        for (int w = 0;w<=width-1;w++){
+            for (int h = 0; h<= height-1; h++){
+                if (contains(w,h))out += check(get(w,h));
+                else out +="0";
+            }
+            out += "\n";}
+        return out;  
+    }
     
 /**  
  * Prints the state of the board into human sensible String output.   
