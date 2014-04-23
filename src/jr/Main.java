@@ -22,10 +22,12 @@ class Main {
             System.out.println(b.cur.getPoint(2, 2));
             System.out.println("step :"+s);
             */
+
             b.step();
             
             // stop simulation if no cells remain or eventual input
             if(b.next.board.isEmpty()) {
+                System.out.println(b.next.board.size());
                 System.out.println("Out of cells at step:"+s);
                 break;
             }
@@ -37,6 +39,9 @@ class Main {
         
         BoardManager b = all.get(board);
         //Add some cells
+        b.cur.put(new Cell(1,2));
+        b.cur.put(new Cell(2,2));
+        b.cur.put(new Cell(3,2));
         b.next.put(new Cell(1,1));
         b.next.put(new Cell(1,2));
         b.next.put(new Cell(1,3));

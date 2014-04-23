@@ -43,6 +43,8 @@ public class BoardManager{
         return neighbours; 
     }
     public void step(){
+        System.out.println(cur.board.values());
+        System.out.println(next.board.values());
         cur.board.values().stream().flatMap(cell-> //Gets list of all mates
                 cell.getNeighbours().stream()).distinct().forEach((Point p)->{
                     
@@ -59,16 +61,15 @@ public class BoardManager{
         endstep();
     }
     public void update(){
+        System.out.println(next.board.size());
         next.board.values().stream().forEach((Cell cell)->{
-            cell.nighbs(check(next,cell));
-            if (cell.notdead())cell.alive=true; 
+            cell.nighbs(check(cur,cell));
+            if (cell.notdead()) cur.put(cell.live());
         });  
     }
     public void endstep(){
         debug();
-        cur.empty();
         update();
-        cur.putAll(next);
         next.empty();
     }
     public String acheck(CellMap board){
@@ -89,7 +90,7 @@ public class BoardManager{
         String out = "";
         for (int w = 0;w<=board.width-1;w++){
             for (int h = 0; h<= board.height-1; h++){
-                if (board.contains(w,h))out += board.get(w,h).getStateAsInt();
+                if (board.contains(w,h))out += board.get(w,h).mates;
                 else out +="0";
             }
             out += "\n";}

@@ -29,6 +29,10 @@ public class Cell extends Point{
         mates=mate;
         return this;
     }
+    public Cell live(){
+        alive=true;
+        return this;
+    }
     /**Returns a List Points of neighbors
      * 
      * @return List of up to 8 Points() of the cell
