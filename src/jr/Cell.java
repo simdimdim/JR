@@ -16,28 +16,35 @@ import java.util.List;
  */
 public class Cell extends Point{
     boolean alive = true;
-    int connections=1;
+    short mates=0;
     public Cell(int x, int y){
         this.x=x;
         this.y=y;
     }
-    public Cell nighbs(int cons){
-        connections=cons;
+    public Cell(Point p){
+        x=p.x;
+        y=p.y;
+    }
+    public Cell nighbs(short mate){
+        mates=mate;
         return this;
     }
-    public List getNeighbours(){
+    /**Returns a List Points of neighbors
+     * 
+     * @return List of up to 8 Points() of the cell
+     */
+    public List<Point> getNeighbours(){
         List<Point> neighbours = new ArrayList<>();
         for (int w=x-1;w<=x+1;w++){
             for (int h=y-1;h<=y+1;h++){
                 if (w<0||h<0) continue;
-                if (w==x&&h==y) continue;
                 neighbours.add(new Point(w,h));
             }
         }
         return neighbours;
     }
     public boolean notdead(){
-        return (connections==3||(alive&&connections==2));
+        return (mates==3||(alive&&mates==2));
     }
     public int getStateAsInt() {
         return alive==true ? 1 : 0;

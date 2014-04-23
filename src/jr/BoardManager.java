@@ -30,42 +30,47 @@ public class BoardManager{
         cur.empty();
         next.empty();
     }
-    public void endstep(){
-        /*
-        System.out.println("1cur size:"+cur.board.size());
-        System.out.println("1board alive \n"+acheck(cur));
-        System.out.println("1board connections \n"+ccheck(cur));
-        System.out.println("1next alive \n"+acheck(next));
-        System.out.println("1next connections \n"+ccheck(next));
-        */
-        cur.empty();
-        cur.putAll(next);
-        next.empty();
-        //update();
-    }
-    public boolean spawn(int x, int y){
-        cur.board.values().stream().forEach((Cell cell)->{
-            cell.getNeighbours().stream().forEach((Point p)->{
-                
-            });
-        });
-        return true;
+    
+    public short check(CellMap board, Point p){
+        short neighbours = 0;
+        for (int w=p.x-1;w<=p.x+1;w++){
+            for (int h=p.y-1;h<=p.y+1;h++){
+                if (w<0||h<0) continue;
+                if (w==p.x&&h==p.y) continue;
+                if (board.board.containsKey(p))neighbours++;
+            }
+        }
+        return neighbours; 
     }
     public void step(){
-        cur.board.values().stream().forEach((Cell cell)->{
-            //System.out.print("step : "+cell); //cells to be processed
-            if (cell.notdead()){}
-                next.put(cell);
-        });
+        cur.board.values().stream().flatMap(cell-> //Gets list of all mates
+                cell.getNeighbours().stream()).distinct().forEach((Point p)->{
+                    
+                    //forEach potential alive cell
+                    //checks alive neighbours and adds to next if alive
+                    if(!cur.board.containsKey(p)){
+                        if(cur.get(p).notdead()){next.put(p);}
+                    }
+                    else{
+                        if (check(cur,p)==3) {
+                            next.put(p);}
+                    }
+                });
         endstep();
-    }/*
+    }
     public void update(){
-        cur.board.values().stream().forEach((Cell cell)->{
-            cell.nighbs(neighbourCheck(cell.x,cell.y));
+        next.board.values().stream().forEach((Cell cell)->{
+            cell.nighbs(check(next,cell));
             if (cell.notdead())cell.alive=true; 
-            //System.out.println(cell.getStateAsInt()); //check if updating
         });  
-    }*/
+    }
+    public void endstep(){
+        debug();
+        cur.empty();
+        update();
+        cur.putAll(next);
+        next.empty();
+    }
     public String acheck(CellMap board){
        String out = "";
         //wait call here
@@ -89,5 +94,11 @@ public class BoardManager{
             }
             out += "\n";}
         return out;  
+    }
+    public void debug(){
+        System.out.println("board alive \n"+acheck(cur));
+        System.out.println("board mates \n"+ccheck(cur));
+        System.out.println("next alive \n"+acheck(next));
+        System.out.println("next mates \n"+ccheck(next));
     }
 }
