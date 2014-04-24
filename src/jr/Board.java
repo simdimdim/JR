@@ -18,18 +18,17 @@ public class Board{
     CellMap cur;
     CellMap next;
     public int number;
-    public int width;
-    public int height;
+    public Coords size;
     
     /**  
      * Constructor. Specified size can be changed later. 
-     * @param x height in number of cells 
-     * @param y width in number of cells 
+     * @param x size.y in number of cells 
+     * @param y size.x in number of cells 
      * @param n board ID
      */ 
     public Board(int x, int y, int n) {
-        width=x ;
-        height=y;
+        size.x=x ;
+        size.y=y;
         cur = new CellMap(x,y);
         next = new CellMap(x,y);
         running=true;
@@ -90,9 +89,9 @@ public class Board{
         if (board==null){board=cur;}
         //System.out.println(board);
         String out = "";
-        for (int w = 0;w<=width-1;w++){
-            for (int h = 0; h<= height-1; h++){
-                if (cur.contains(w,h))out += cur.check(cur.get(w,h));
+        for (int w = 0;w<=size.x-1;w++){
+            for (int h = 0; h<= size.y-1; h++){
+                if (board.contains(w,h))out += board.check(cur.get(w,h));
                 //if (cur.contains(w,h))out += "1"; //simple alive check
                 else out +="0";
             }

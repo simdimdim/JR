@@ -31,9 +31,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         Set<Coords> input = new HashSet();
         Button btn = new Button();
-        btn.setText("Some Text here: Board");
+        btn.setText("Next Step");
         Button create = new Button();
-        create.setText("make");
+        create.setText("Create a board");
         
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override

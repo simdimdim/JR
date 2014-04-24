@@ -28,6 +28,9 @@ public class Controls {
         }
         return output;  
     }
+    static public Coords getSize(int n){
+        return new Coords(all.get(n).size);
+    }
     static public void create(int width,int height){
         int n=all.size();
         all.put(n,new Board(width,height,n));
