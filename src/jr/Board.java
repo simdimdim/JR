@@ -18,7 +18,8 @@ public class Board{
     CellMap cur;
     CellMap next;
     public int number;
-    public Coords size;
+    /** Size of the board. Initialized to 0. */
+    public final Coords size = new Coords(0, 0);
     
     /**  
      * Constructor. Specified size can be changed later. 
@@ -27,13 +28,16 @@ public class Board{
      * @param n board ID
      */ 
     public Board(int x, int y, int n) {
-        size.x=x ;
+        size.x=x;
         size.y=y;
         cur = new CellMap(x,y);
         next = new CellMap(x,y);
         running=true;
-        cur.empty();
-        next.empty();
+        
+//        // unnecessary  CTRL+SHIFT+C uncomment
+//        cur.empty();
+//        next.empty();
+        
         this.number=n;
     }
     public void step(Set<Coords> queue){

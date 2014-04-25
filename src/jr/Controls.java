@@ -7,7 +7,7 @@
 package jr;
 
 import java.util.Set;
-import static jr.GUI.Main.all;
+import jr.GUI.Main;
 
 /**
  *
@@ -15,28 +15,34 @@ import static jr.GUI.Main.all;
  */
 public class Controls {
     static public void step(int n, Set<Coords> queue){
-        if (all.containsKey(n)) {
-            Board board =all.get(n);
+        if (Main.all.containsKey(n)) {
+            Board board = Main.all.get(n);
             if (board.running){
                 board.step(queue);
             }
         }
     }
     public Coords getSize(int n){
-        return new Coords(all.get(n).size);
+        return new Coords(Main.all.get(n).size);
     }
-    /*creates a new board
+   /** 
+    * Creates a new board.
     * @param width x of the new board
     * @param height y of the new board
+    * @return the created board.
     */
-    static public void create(int width,int height){
-        int n=all.size();
-        all.put(n,new Board(width,height,n));
+    static public Board create(int width,int height){
+        // make board
+        int id = Main.generateNewBoardId();
+        Board b = new Board(width,height,id);
+        Main.addBoard(id,b);
+        
         //manually add cells
-        Board b = all.get(n);
-        //b.cur.put(1,1);
+//        b.cur.put(1,1);
         b.cur.put(2,3);
         b.cur.put(2,1);
         b.cur.put(2,2);
+        
+        return b;
     }
 }

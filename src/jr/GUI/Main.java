@@ -20,7 +20,28 @@ import jr.Board;
  * @author thedoctor
  */
 public class Main extends Application {
-    static public HashMap<Integer,Board> all = new HashMap<>();
+    
+    public static HashMap<Integer,Board> all = new HashMap<>();
+    private static int id=0;
+    
+    /**
+     * Generates unique id for new board.
+     * @return 
+     */
+    public static int generateNewBoardId() {
+        id++;
+        return id-1;
+    }
+    /**
+     * Adds board with specified id.
+     * @return index of the board.
+     */
+    public static int addBoard(int _id, Board b) {
+        all.put(_id, b);
+        return _id;
+    }
+    
+    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
