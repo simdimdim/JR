@@ -6,8 +6,6 @@
 
 package jr;
 
-
-import java.util.HashSet;
 import java.util.Set;
 import static jr.GUI.Main.all;
 
@@ -16,21 +14,21 @@ import static jr.GUI.Main.all;
  * @author thedoctor
  */
 public class Controls {
-    static public Set<Coords> step(int n, Set<Coords> queue){
-        Set<Coords> output = new HashSet<>();
+    static public void step(int n, Set<Coords> queue){
         if (all.containsKey(n)) {
             Board board =all.get(n);
             if (board.running){
-                //main operations
-                //Gets list of all mates
-                output=board.step(queue);}
-            System.out.println(board.toString(board.cur));
+                board.step(queue);
+            }
         }
-        return output;  
     }
-    static public Coords getSize(int n){
+    public Coords getSize(int n){
         return new Coords(all.get(n).size);
     }
+    /*creates a new board
+    * @param width x of the new board
+    * @param height y of the new board
+    */
     static public void create(int width,int height){
         int n=all.size();
         all.put(n,new Board(width,height,n));

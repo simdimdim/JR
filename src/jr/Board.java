@@ -36,7 +36,7 @@ public class Board{
         next.empty();
         this.number=n;
     }
-    public Set<Coords> step(Set<Coords> queue){
+    public void step(Set<Coords> queue){
         change(queue); // applies input
         applylogic();
         cur.empty();
@@ -45,8 +45,6 @@ public class Board{
         // stop simulation if no cells remain
         if(cur.isEmpty()) {
             stop();}
-
-        return cur.board.keySet();
     }
     void change(Set<Coords> queue){
         queue.stream().forEach((Coords p)->{
