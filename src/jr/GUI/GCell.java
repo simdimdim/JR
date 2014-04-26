@@ -6,16 +6,18 @@
 
 package jr.GUI;
 
+import javafx.scene.control.Button;
 import jr.Coords;
 
 /**
  *
  * @author thedoctor
  */
-public class Cell extends Coords{
-    Cell (int x, int y){
-        this.x=x;
-        this.y=y;
+public class GCell extends Button{
+    Coords location;
+    GCell (int x, int y){
+        location.x=x;
+        location.y=y;
     }
     public void change(){
         //add remove itself from the queue of cells to be changed

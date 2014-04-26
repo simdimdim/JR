@@ -32,17 +32,12 @@ public class Board{
         size.y=y;
         cur = new CellMap(x,y);
         next = new CellMap(x,y);
-        running=true;
-        
-//        // unnecessary  CTRL+SHIFT+C uncomment
-//        cur.empty();
-//        next.empty();
-        
+        running=true;  
         this.number=n;
     }
     public void step(Set<Coords> queue){
         change(queue); // applies input
-        applylogic();
+        applylogic();  // applies GoL logic 
         cur.empty();
         cur.putAll(next);
         next.empty();

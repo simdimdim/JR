@@ -58,12 +58,10 @@ public class FXMLController implements Initializable {
     private void newboard() {
         data = Controls.create(11,11);
         adjustGrid();
-        displayCells();
     }
     @FXML
     private void nextstep() {
         Controls.step(0,input);
-        displayCells();
     }
     
     /** Recreates the grid to fit new size*/
@@ -84,27 +82,15 @@ public class FXMLController implements Initializable {
         
         for(int x = 1; x<=width; x++) {
             for(int y = 1; y<=height; y++) {
-                Button cell = new Button();
+                GCell cell = new GCell(x,y);
                        cell.setMinSize(CELLSIZE, CELLSIZE); //button appears to be fkin stupid so set all three sizes
                        cell.setMaxSize(CELLSIZE, CELLSIZE); 
                        cell.setPrefSize(CELLSIZE, CELLSIZE);
                        cell.setVisible(false);
-                cells.put(new Coords(x, y), cell);      // populate cell list for easy access 
+                cells.put(new Coords(x, y), cell);     // populate cell list for easy access 
                 board.add(cell, x-1, y-1);             // populate the grid (grid starts at 0! watch out)
             }
         }
-    }
-    
-    private void displayCells() {
-        cells.values().forEach(child->child.setVisible(false));
-        //get all alive cells
-        // for each set appropriate guicell visible
-        
-        //test
-        cells.entrySet().forEach(child->{
-            if(Math.abs(child.getKey().x-6)==Math.abs(child.getKey().y-6)) // trolling double abs turns x=y into an X shape
-                child.getValue().setVisible(true);
-        });
     }
     
 }

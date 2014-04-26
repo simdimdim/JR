@@ -17,7 +17,7 @@ public class CellMap{
     private static final long serialVersionUID = 1L; 
     int width;
     int height;
-    HashMap<Coords,Cell> board;
+    HashMap<Coords,BCell> board;
     
     public CellMap(int x, int y) {
         board = new HashMap<>();
@@ -26,13 +26,13 @@ public class CellMap{
     }
 /** Fill the board with cells
  * Constructor. Specified size can be changed later. 
- * @param cell Cell to fill the array with
+ * @param cell BCell to fill the array with
  * @param startw filling starting point (on the horizontal)
  * @param stopw filling stopping point (on the horizontal)
  * @param starth filling starting point (on the vertical)
  * @param stoph filling stopping point (on the vertical)
  **/
-    public  void fill(Cell cell, int startw,int stopw, int starth, int stoph){
+    public  void fill(BCell cell, int startw,int stopw, int starth, int stoph){
         for (int w = startw;w<=stopw-1;w++){
             for (int h = starth; h<= stoph-1; h++){
                 if (w<0||h<0) continue;
@@ -47,20 +47,20 @@ public class CellMap{
     public void remove(Coords key){
        board.remove(key);
     }
-    public Cell get(int x, int y){
+    public BCell get(int x, int y){
         return board.get(new Coords(x,y));
     }
-    public Coords getCoords(Cell cell){
+    public Coords getCoords(BCell cell){
         return new Coords(cell.x,cell.y);
     }
-    public Cell getCell(Coords cord){
+    public BCell getCell(Coords cord){
         return board.get(cord);
     }
     public void put(int x, int y){
-        board.put(new Coords(x,y), new Cell(x,y));
+        board.put(new Coords(x,y), new BCell(x,y));
     }
     public void put(Coords cord){
-        board.put(cord, new Cell(cord));
+        board.put(cord, new BCell(cord));
     }
     public void putAll(CellMap board){
         this.board.putAll(board.board);
@@ -88,7 +88,7 @@ public class CellMap{
     }
     public CellMap getExtendedRemap(int x,int y){
         CellMap newboard = new CellMap(width+2*x,height+2*y);
-        board.values().stream().forEach((Cell cell)->{
+        board.values().stream().forEach((BCell cell)->{
             newboard.put(cell.x+x,cell.y+y);
         });
         return newboard;

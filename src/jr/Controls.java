@@ -14,7 +14,7 @@ import jr.GUI.Main;
  * @author thedoctor
  */
 public class Controls {
-    static public void step(int n, Set<Coords> queue){
+    public static void step(int n, Set<Coords> queue){
         if (Main.all.containsKey(n)) {
             Board board = Main.all.get(n);
             if (board.running){
