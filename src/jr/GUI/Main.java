@@ -20,10 +20,9 @@ import jr.Board;
  * @author thedoctor
  */
 public class Main extends Application {
-    
+    // <board>
     public static HashMap<Integer,Board> all = new HashMap<>();
-    private static int id=0;
-    
+    private static int id=0; //is there another way?
     /**
      * Generates unique id for new board.
      * @return 
@@ -40,7 +39,7 @@ public class Main extends Application {
         all.put(_id, b);
         return _id;
     }
-    
+    // </board>
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -49,7 +48,6 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
     }
-    
     /**
      * @param args the command line arguments
      */

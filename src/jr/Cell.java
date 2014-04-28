@@ -13,13 +13,13 @@ import java.util.List;
  *
  * @author thedoctor
  */
-public class BCell extends Coords{
+public class Cell extends Coords{
     boolean alive = true;
-    public BCell(int x, int y){
+    public Cell(int x, int y){
         this.x=x;
         this.y=y;
     }
-    public BCell(Coords p){
+    public Cell(Coords p){
         x=p.x;
         y=p.y;
     }
