@@ -36,6 +36,7 @@ public class Board{
         this.number=n;
     }
     public void step(Set<Coords> queue){
+        System.out.println(toString(cur));
         change(queue); // applies input
         applylogic();  // applies GoL logic 
         cur.empty();
@@ -88,8 +89,8 @@ public class Board{
         String out = "";
         for (int w = 0;w<=size.x-1;w++){
             for (int h = 0; h<= size.y-1; h++){
-                if (board.contains(w,h))out += board.check(cur.get(w,h));
-                //if (cur.contains(w,h))out += "1"; //simple alive check
+                //if (board.contains(w,h))out += board.check(cur.get(w,h));
+                if (cur.contains(w,h))out += "1"; //simple alive check
                 else out +="0";
             }
             out += "\n";}        //System.out.println(cur);

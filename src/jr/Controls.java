@@ -17,9 +17,9 @@ public class Controls {
     public static void step(int n, Set<Coords> queue){
         if (Main.all.containsKey(n)) {
             Board board = Main.all.get(n);
-            if (board.running){
-                board.step(queue);
-            }
+            //if (board.running){
+            board.step(queue);
+            //}
         }
     }
     public Coords getSize(int n){
@@ -39,9 +39,9 @@ public class Controls {
         
         //manually add cells
 //        b.cur.put(1,1);
-        b.cur.put(2,3);
-        b.cur.put(2,1);
-        b.cur.put(2,2);
+//        b.cur.put(2,3);
+//        b.cur.put(2,1);
+//        b.cur.put(2,2);
         
         return b;
     }

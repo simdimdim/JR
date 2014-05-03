@@ -18,7 +18,6 @@ import jr.Board;
 import jr.Controls;
 import jr.Coords;
 
-
 /**
  *
  * @author thedoctor
@@ -39,7 +38,7 @@ public class FXMLController implements Initializable {
     //functions declarations
     @FXML
     private void newboard() {
-        data = Controls.create(15,15);
+        data = Controls.create(5,5);
         adjustGrid();
     }
     @FXML
@@ -52,17 +51,18 @@ public class FXMLController implements Initializable {
     private void adjustGrid() {
         int width = data.size.x;
         int height = data.size.y;
-        for (int x=0;x<width;x++){
-            for (int y=0; y<height;y++){
+        for (int x=0; x<width; x++){
+            for (int y=0; y<height; y++){
                 final int xf = x;
                 final int yf = y;
                 Button but = new Button();
-                but.setOnMouseClicked(event -> {input(xf,yf);});
-                board.add(but,x,y);
+                but.setOnMouseClicked(event -> {changeQueue(xf,yf);});
+                board.add(but, y, x);
             }
         }
+        board.autosize();
     }
-    private void input(int x, int y){
+    private void changeQueue(int x, int y){
         input.add(new Coords(x,y));
     }
     /**
@@ -70,9 +70,9 @@ public class FXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        input.add(new Coords(5, 5));
-        input.add(new Coords(3, 5));
-        input.add(new Coords(4, 5));
+        /*input.add(new Coords(2, 1));
+        input.add(new Coords(2, 2));
+        input.add(new Coords(2, 3));*/
     } 
     
 }
