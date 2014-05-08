@@ -99,10 +99,14 @@ public class CellMap{
     }
     public short check(Coords cord){
         short neighbours = 0;
-        for (int w=cord.x-1;w<=cord.x+1;w++){
-            for (int h=cord.y-1;h<=cord.y+1;h++){
-                if (w<0||h<0) continue;
-                if (w==cord.x&&h==cord.y) continue;
+        for (int w=cord.x-1; w<=cord.x+1; w++){
+            for (int h=cord.y-1; h<=cord.y+1; h++){
+                // drop cells from up and left borders
+                if (w<0 || h<0) continue;
+                // drop cells from bottom and right borders
+                if (w>width-1 || h>height-1) continue;
+                // ignore self
+                if ( w==cord.x && h==cord.y ) continue;
                 if (contains(w,h)){
                     neighbours++;
                 }

@@ -13,9 +13,7 @@ import java.util.Set;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import jr.Board;
 import jr.Controls;
 import jr.Coords;
@@ -40,17 +38,20 @@ public class FXMLController implements Initializable {
     //functions declarations
     @FXML
     private void newboard() {
-        data = Controls.create(15,15);
+        data = Controls.create(7,7);
         adjustGrid();
     }
     @FXML
     private void nextstep() {
-        Controls.step(0,input);
+        data.step(input);
         input.clear();
+        adjustGrid();
     }
     
     /** Recreates the grid to fit new size*/
     private void adjustGrid() {
+        String stalive = "-fx-base: #a0ff00;";
+        String stdead = "-fx-base: #000000;";
         double width = data.size.x;
         double height = data.size.y;
         for (int x=0; x<width; x++){
@@ -58,16 +59,27 @@ public class FXMLController implements Initializable {
                 final int xf = x;
                 final int yf = y;
                 Button but = new Button();
-                but.setMinSize(1/width, 1/height);
+                //set state
+                if (data.drawCheck(x, y)){but.setStyle(stalive);}
+                else {but.setStyle(stdead);}
+                //set size
+                but.setMinSize((1/width)*20, (1/height)*20);
                 but.setPrefSize(board.getWidth(), board.getHeight());
-                //the board was getting flipped for some reason so reversed yf and xf
-                but.setOnMouseClicked(event -> {changeQueue(yf,xf);});
+                //add acions
+                but.setOnMouseClicked(event -> {changeQueue(xf,yf);
+                    // add change of style on click
+                    //possible to add more conditions and wrap it up in a function later
+                    if (but.getStyle().matches(stdead)){but.setStyle(stalive);}
+                    else {but.setStyle(stdead);
+                    }
+                });
                 board.add(but, x, y);
             }
         }
     }
     private void changeQueue(int x, int y){
-        input.add(new Coords(x,y));
+        if (input.contains(new Coords(x,y))){input.remove(new Coords(x,y));}
+        else input.add(new Coords(x,y));
     }
     /**
      * Automatically called on object creation. Initialize everything here.

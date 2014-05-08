@@ -60,10 +60,10 @@ public class Board{
                 .distinct()
                 .forEach((Coords p)->{
                     //forEach mate if alive adds to next
-                    if(cur.check(p)==2&&cur.contains(p)){
+                    if(cur.check(p)==2 && cur.contains(p) ){
                         next.put(p);}
                     else{
-                        if (cur.check(p)==3) {
+                        if (cur.check(p) == 3) {
                             next.put(p);}
                     }
                 });
@@ -76,6 +76,12 @@ public class Board{
         next.extendandremap(x, y);
         return this;
     }
+    public boolean drawCheck(int x, int y){
+        return cur.contains(x, y);
+    }
+    public Set getCurrent(){
+        return cur.board.keySet();
+    }
     /**  
  * Prints the state of the board into human sensible String output.   
  * <p>  
@@ -87,9 +93,28 @@ public class Board{
         if (board==null){board=cur;}
         //System.out.println(board);
         String out = "";
-        for (int w = 0;w<=size.x-1;w++){
-            for (int h = 0; h<= size.y-1; h++){
-                //if (board.contains(w,h))out += board.check(cur.get(w,h));
+        for (int h = 0; h<size.y; h++){
+            for (int w = 0;w<size.x;w++){
+                if (board.contains(w,h))out += board.check(cur.get(w,h));
+                //if (cur.contains(w,h))out += "1"; //simple alive check
+                else out +="0";
+            }
+            out += "\n";}        //System.out.println(cur);
+        return out; 
+    }
+    /**  
+ * Prints the state of the board into human sensible String output.   
+ * <p>  
+ * Use for debug. 
+ * @param board for board for processing  
+ * @return string representation of the board  
+ */  
+    @Override
+    public String toString() {
+        //System.out.println(board);
+        String out = "";
+        for (int h = 0; h<size.y; h++){
+            for (int w = 0;w<size.x;w++){
                 if (cur.contains(w,h))out += "1"; //simple alive check
                 else out +="0";
             }

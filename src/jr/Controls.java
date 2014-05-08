@@ -14,7 +14,7 @@ import jr.GUI.Main;
  * @author thedoctor
  */
 public class Controls {
-    public static void step(int n, Set<Coords> queue){
+    static void step(int n, Set<Coords> queue){
         if (Main.all.containsKey(n)) {
             Board board = Main.all.get(n);
             //if (board.running){
@@ -36,13 +36,6 @@ public class Controls {
         int id = Main.generateNewBoardId();
         Board b = new Board(width,height,id);
         Main.addBoard(id,b);
-        
-        //manually add cells
-//        b.cur.put(1,1);
-//        b.cur.put(2,3);
-//        b.cur.put(2,1);
-//        b.cur.put(2,2);
-        
         return b;
     }
 }
