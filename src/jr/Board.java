@@ -1,0 +1,124 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties. 
+ * To change this template file, choose Tools | Templates 
+ * and open the template in the editor. 
+ */ 
+ 
+package jr; 
+
+import java.util.Set;
+
+/** 
+ * Area for the Cells. 
+ * 
+ * @author thedoctor 
+ */ 
+public class Board{
+    boolean running;
+    public CellMap cur;
+    public CellMap next;
+    public int number;
+    /** Size of the board. Initialized to 0. */
+    public final Coords size = new Coords(0, 0);
+    
+    /**  
+     * Constructor. Specified size can be changed later. 
+     * @param x size.y in number of cells 
+     * @param y size.x in number of cells 
+     * @param n board ID
+     */ 
+    public Board(int x, int y, int n) {
+        size.x=x;
+        size.y=y;
+        cur = new CellMap(x,y);
+        next = new CellMap(x,y);
+        running=true;  
+        this.number=n;
+    }
+    public void step(Set<Coords> queue){
+        //System.out.println(toString(cur));
+        change(queue); // applies input
+        applylogic();  // applies GoL logic 
+        cur.empty();
+        cur.putAll(next);
+        next.empty();
+        // stop simulation if no cells remain
+        if(cur.isEmpty()) {
+            stop();}
+    }
+    void change(Set<Coords> queue){
+        queue.stream().forEach((Coords p)->{
+            if (cur.contains(p)){
+                cur.remove(p);}
+            else{
+                cur.put(p);}
+        }); 
+    }
+    void applylogic(){
+        cur.board.values().stream()
+                .flatMap(cell->cell.getNeighbours().stream())
+                .distinct()
+                .forEach((Coords p)->{
+                    //forEach mate if alive adds to next
+                    if(cur.check(p)==2 && cur.contains(p) ){
+                        next.put(p);}
+                    else{
+                        if (cur.check(p) == 3) {
+                            next.put(p);}
+                    }
+                });
+    }
+    public void stop(){
+        running=false;
+    }
+    public Board resize(int x, int y){
+        cur.extendandremap(x, y);
+        next.extendandremap(x, y);
+        return this;
+    }
+    public boolean drawCheck(int x, int y){
+        return cur.contains(x, y);
+    }
+    public Set getCurrent(){
+        return cur.board.keySet();
+    }
+    /**  
+ * Prints the state of the board into human sensible String output.   
+ * <p>  
+ * Use for debug. 
+ * @param board for board for processing  
+ * @return string representation of the board  
+ */  
+    public String toString(CellMap board) {
+        if (board==null){board=cur;}
+        //System.out.println(board);
+        String out = "";
+        for (int h = 0; h<size.y; h++){
+            for (int w = 0;w<size.x;w++){
+                if (board.contains(w,h))out += board.check(cur.get(w,h));
+                //if (cur.contains(w,h))out += "1"; //simple alive check
+                else out +="0";
+            }
+            out += "\n";}        //System.out.println(cur);
+        return out; 
+    }
+    /**  
+ * Prints the state of the board into human sensible String output.   
+ * <p>  
+ * Use for debug. 
+ * @param board for board for processing  
+ * @return string representation of the board  
+ */  
+    @Override
+    public String toString() {
+        //System.out.println(board);
+        String out = "";
+        for (int h = 0; h<size.y; h++){
+            for (int w = 0;w<size.x;w++){
+                if (cur.contains(w,h))out += "1"; //simple alive check
+                else out +="0";
+            }
+            out += "\n";}        //System.out.println(cur);
+        return out; 
+    }
+}

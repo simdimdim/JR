@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="81.0" minWidth="108.0" stylesheets="@Graphics.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jr.GUI.FXMLController">
+<children>
+<AnchorPane layoutX="1.2928931713104248" layoutY="1.2928931713104248" minHeight="77.0" minWidth="77.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="0.0">
+<children>
+    <GridPane fx:id="board" alignment="CENTER" gridLinesVisible="true" hgap="1.0" layoutX="0.7071068286895752" layoutY="0.7071068286895752" vgap="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+  <columnConstraints>
+    <ColumnConstraints />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints />
+  </rowConstraints>
+<effect>
+<Lighting>
+<bumpInput>
+<Shadow />
+</bumpInput>
+</Lighting>
+</effect>
+</GridPane>
+</children>
+</AnchorPane><Button fx:id="next" maxHeight="50.0" maxWidth="25.0" minHeight="50.0" minWidth="25.0" mnemonicParsing="false" onAction="#nextstep" prefHeight="50.0" prefWidth="25.0" text="&gt;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.halignment="RIGHT" GridPane.valignment="TOP" />
+<Button fx:id="create" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#newboard" onMousePressed="#newboard" prefHeight="25.0" prefWidth="25.0" text="+" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
+</children>
+<padding>
+<Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+</padding>
+</AnchorPane>

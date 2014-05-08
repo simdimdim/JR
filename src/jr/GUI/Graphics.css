@@ -1,0 +1,21 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : May 8, 2014, 5:26:57 PM
+    Author     : Plutonium_
+*/
+
+// normal state
+.grid-cell {
+}
+// pseudoclass when cell is not alive, gui = normal
+.grid-cell:dead {
+    
+}
+// pseudoclass for living cell
+.grid-cell:alive {
+    -fx-background-color: rgb(185,155,155);
+}

@@ -6,26 +6,23 @@
 
 package jr;
 
-import java.awt.Point;
 import java.util.HashMap;
 
 /**
  *
  * @author thedoctor
  */
-public class CellMap extends HashMap<Point, Cell>{
+public class CellMap{
     /** for serialization... (so compiler doesn't complain) */ 
     private static final long serialVersionUID = 1L; 
-    
     int width;
     int height;
-    Point cellcoords= new Point();
-    HashMap<Point,Cell> board;
+    HashMap<Coords,Cell> board;
     
     public CellMap(int x, int y) {
+        board = new HashMap<>();
         width=x ;
         height=y;
-        board = new HashMap<>();
     }
 /** Fill the board with cells
  * Constructor. Specified size can be changed later. 
@@ -39,7 +36,7 @@ public class CellMap extends HashMap<Point, Cell>{
         for (int w = startw;w<=stopw-1;w++){
             for (int h = starth; h<= stoph-1; h++){
                 if (w<0||h<0) continue;
-                put(w,h,cell);
+                put(w,h);
             }
         }
     }
@@ -47,51 +44,52 @@ public class CellMap extends HashMap<Point, Cell>{
     public void empty(){
         board.clear();
     }
+    public void remove(Coords key){
+       board.remove(key);
+    }
     public Cell get(int x, int y){
-        cellcoords= new Point(x,y);
-        return board.get(cellcoords);
+        return board.get(new Coords(x,y));
     }
-    public Point getCellPoint(Cell cell){
-        return cell.getLocation();
+    public Coords getCoords(Cell cell){
+        return new Coords(cell.x,cell.y);
     }
-    public Point getPoint(int x, int y){
-        return new Point(x,y);
+    public Cell getCell(Coords cord){
+        return board.get(cord);
     }
-    public int getx(Cell cell){
-        return cell.x;
+    public void put(int x, int y){
+        board.put(new Coords(x,y), new Cell(x,y));
     }
-    public int gety(Cell cell){
-        return cell.y;
-    }
-    public Cell getCell(Point point){
-        return board.get(point);
-    }
-    public void put(int x, int y, Cell cell){
-        cellcoords= new Point(x,y);
-        board.put(cellcoords, cell);
-    }
-    public void put(Cell cell){
-        board.put(cell.getLocation(), cell);
+    public void put(Coords cord){
+        board.put(cord, new Cell(cord));
     }
     public void putAll(CellMap board){
-        this.board=board.board;
+        this.board.putAll(board.board);
+    }
+    public void removeAll(CellMap b){
+        b.board.keySet().forEach((Coords c)->{
+            if (contains(c))
+                board.remove(c);
+        });
     }
     public boolean contains(int x, int y){
-        return board.containsKey(getPoint(x, y));
+        return board.containsKey(new Coords(x,y));
     }
-    public boolean contains(Cell cell){
-        return board.containsValue(cell);
+    public boolean contains(Coords cord){
+        return board.containsKey(cord);
     }
     public boolean getState(int x, int y){
         return contains(x,y)&&get(x,y).alive;
     }
-    public CellMap copy(){
-        return this;
+    public boolean isEmpty(){
+        return board.isEmpty();
+    }
+    public HashMap copy(){
+        return this.board;
     }
     public CellMap getExtendedRemap(int x,int y){
-        CellMap newboard = new CellMap(x,y);
+        CellMap newboard = new CellMap(width+2*x,height+2*y);
         board.values().stream().forEach((Cell cell)->{
-            newboard.put(cell.x+x,cell.y+y,cell);
+            newboard.put(cell.x+x,cell.y+y);
         });
         return newboard;
     }
@@ -99,27 +97,21 @@ public class CellMap extends HashMap<Point, Cell>{
         CellMap newboard = getExtendedRemap(x,y);
         putAll(newboard);
     }
-/**  
- * Prints the state of the board into human sensible String output.   
- * <p>  
- * Use for debug.  
- * @return string representation of the board  
- */  
-    @Override
-    public String toString() {
-//        return getClass().getName()+"[width="+width+",height="+height+"]";
-        
-        String out = "";
-        for(int i = 1; i<height; i++) {
-            for(int j = 1; j<width; j++) {
-                Cell c = board.get(new Point(i, j));
-                if(c==null)
-                    out+= "x ";
-                else
-                 out += c.connections + " ";
+    public short check(Coords cord){
+        short neighbours = 0;
+        for (int w=cord.x-1; w<=cord.x+1; w++){
+            for (int h=cord.y-1; h<=cord.y+1; h++){
+                // drop cells from up and left borders
+                if (w<0 || h<0) continue;
+                // drop cells from bottom and right borders
+                if (w>width-1 || h>height-1) continue;
+                // ignore self
+                if ( w==cord.x && h==cord.y ) continue;
+                if (contains(w,h)){
+                    neighbours++;
+                }
             }
-            out +="\n";
         }
-        return out;
+        return neighbours; 
     }
 }
