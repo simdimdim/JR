@@ -38,7 +38,7 @@ public class FXMLController implements Initializable {
     //functions declarations
     @FXML
     private void newboard() {
-        data = Controls.create(7,7);
+        data = Controls.create(20,20);
         adjustGrid();
     }
     @FXML

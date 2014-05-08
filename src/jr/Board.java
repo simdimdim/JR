@@ -36,7 +36,7 @@ public class Board{
         this.number=n;
     }
     public void step(Set<Coords> queue){
-        System.out.println(toString(cur));
+        //System.out.println(toString(cur));
         change(queue); // applies input
         applylogic();  // applies GoL logic 
         cur.empty();
