@@ -31,7 +31,8 @@ public class Cell extends Coords{
         List<Coords> neighbours = new ArrayList<>();
         for (int w=x-1;w<=x+1;w++){
             for (int h=y-1;h<=y+1;h++){
-                if (w<0||h<0) continue;
+                //to be removed or substitued with < width or height
+                if (w<0||h<0) continue; 
                 //if (w==x||h==y) continue;
                 neighbours.add(new Coords(w,h));
             }

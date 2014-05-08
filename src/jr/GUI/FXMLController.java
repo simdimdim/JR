@@ -13,7 +13,9 @@ import java.util.Set;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import jr.Board;
 import jr.Controls;
 import jr.Coords;
@@ -38,7 +40,7 @@ public class FXMLController implements Initializable {
     //functions declarations
     @FXML
     private void newboard() {
-        data = Controls.create(5,5);
+        data = Controls.create(15,15);
         adjustGrid();
     }
     @FXML
@@ -49,18 +51,20 @@ public class FXMLController implements Initializable {
     
     /** Recreates the grid to fit new size*/
     private void adjustGrid() {
-        int width = data.size.x;
-        int height = data.size.y;
+        double width = data.size.x;
+        double height = data.size.y;
         for (int x=0; x<width; x++){
             for (int y=0; y<height; y++){
                 final int xf = x;
                 final int yf = y;
                 Button but = new Button();
-                but.setOnMouseClicked(event -> {changeQueue(xf,yf);});
-                board.add(but, y, x);
+                but.setMinSize(1/width, 1/height);
+                but.setPrefSize(board.getWidth(), board.getHeight());
+                //the board was getting flipped for some reason so reversed yf and xf
+                but.setOnMouseClicked(event -> {changeQueue(yf,xf);});
+                board.add(but, x, y);
             }
         }
-        board.autosize();
     }
     private void changeQueue(int x, int y){
         input.add(new Coords(x,y));
