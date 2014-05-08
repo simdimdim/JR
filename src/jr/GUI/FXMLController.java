@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import jr.Board;
 import jr.Controls;
 import jr.Coords;
@@ -39,26 +40,15 @@ public class FXMLController implements Initializable {
     @FXML
     private void newboard() {
         data = Controls.create(20,20);
-        adjustGrid();
-    }
-    @FXML
-    private void nextstep() {
-        data.step(input);
-        input.clear();
-        adjustGrid();
-    }
-    
-    /** Recreates the grid to fit new size*/
-    private void adjustGrid() {
-        String stalive = "-fx-base: #a0ff00;";
-        String stdead = "-fx-base: #000000;";
+        String stalive = "-fx-background-color: #a0ff00;";
+        String stdead = "-fx-background-color: #000000;";
         double width = data.size.x;
         double height = data.size.y;
         for (int x=0; x<width; x++){
             for (int y=0; y<height; y++){
                 final int xf = x;
                 final int yf = y;
-                Button but = new Button();
+                Region but = new Region();
                 //set state
                 if (data.drawCheck(x, y)){but.setStyle(stalive);}
                 else {but.setStyle(stdead);}
@@ -76,6 +66,15 @@ public class FXMLController implements Initializable {
                 board.add(but, x, y);
             }
         }
+    }
+    @FXML
+    private void nextstep() {
+        data.step(input);
+        input.clear();
+        /*code here for changing buttons
+        Along the lines of (button from somelist ).change()
+        */
+        
     }
     private void changeQueue(int x, int y){
         if (input.contains(new Coords(x,y))){input.remove(new Coords(x,y));}
