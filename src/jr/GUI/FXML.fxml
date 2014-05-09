@@ -10,7 +10,7 @@
 <children>
 <AnchorPane layoutX="1.2928931713104248" layoutY="1.2928931713104248" minHeight="77.0" minWidth="77.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="0.0">
 <children>
-    <GridPane fx:id="board" alignment="CENTER" gridLinesVisible="true" hgap="1.0" layoutX="0.7071068286895752" layoutY="0.7071068286895752" vgap="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <GridPane fx:id="guiboard" alignment="CENTER" gridLinesVisible="true" hgap="1.0" layoutX="0.7071068286895752" layoutY="0.7071068286895752" minHeight="0.0" minWidth="0.0" vgap="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
   <columnConstraints>
     <ColumnConstraints />
   </columnConstraints>
@@ -27,7 +27,7 @@
 </GridPane>
 </children>
 </AnchorPane><Button fx:id="next" maxHeight="50.0" maxWidth="25.0" minHeight="50.0" minWidth="25.0" mnemonicParsing="false" onAction="#nextstep" prefHeight="50.0" prefWidth="25.0" text="&gt;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.halignment="RIGHT" GridPane.valignment="TOP" />
-<Button fx:id="create" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#newboard" onMousePressed="#newboard" prefHeight="25.0" prefWidth="25.0" text="+" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
+<Button fx:id="create" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#newboard" prefHeight="25.0" prefWidth="25.0" text="+" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
 </children>
 <padding>
 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />

@@ -13,9 +13,9 @@ and open the template in the editor.
 }
 // pseudoclass when cell is not alive, gui = normal
 .grid-cell:dead {
-    
+    -fx-background-color: rgb(0,0,0);
 }
 // pseudoclass for living cell
 .grid-cell:alive {
-    -fx-background-color: rgb(185,155,155);
+    -fx-background-color: rgb(160,255,0);
 }

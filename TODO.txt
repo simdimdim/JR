@@ -1,0 +1,21 @@
+- finish array integration
+	1) creating a board; cell spawn, filling the array
+	2) remove 'dead' gui cells or make them default to blank
+	3) pool?
+	4) eventually tie to cur.board (prob)
+
+- Mouse capture; convert to g(ui)cell Coords
+	1) creating gcells
+		+ link with input queue
+	2) Check if an array of dead cells would be better than dynamically adding/removing cells
+
+- Think about reworking stepping in the FXMLController
+	1) probably separate it from cell changes in 'input' queue
+
+- Threads
+	1) sleep
+	2) divide the work
+
+- make cells/buttons always rectangular (resize).
+
+- Finish the thing.
