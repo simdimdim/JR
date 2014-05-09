@@ -25,12 +25,12 @@ import jr.Coords;
  */
 public class FXMLController implements Initializable {
     Set<Coords> input = new HashSet();
-    /** board data*/
-    private Board data;
-     
+    /** guiboard data*/
+    private Board board;
+    C[][] gboardarray = new C[board.size.x][board.size.y]; 
     //elements declaration
     @FXML
-    GridPane board;
+    GridPane guiboard;
     @FXML 
     Button create;
     @FXML
@@ -39,22 +39,27 @@ public class FXMLController implements Initializable {
     //functions declarations
     @FXML
     private void newboard() {
-        data = Controls.create(20,20);
+        board = Controls.create(20,20);
         String stalive = "-fx-background-color: #a0ff00;";
         String stdead = "-fx-background-color: #000000;";
-        double width = data.size.x;
-        double height = data.size.y;
+        board = Controls.create(100,100);
+        double width = board.size.x;
+        double height = board.size.y;
         for (int x=0; x<width; x++){
             for (int y=0; y<height; y++){
                 final int xf = x;
                 final int yf = y;
+ 
                 Region but = new Region();
+
+                C cell = new C(x, y);
+
                 //set state
-                if (data.drawCheck(x, y)){but.setStyle(stalive);}
+                if (board.drawCheck(x, y)){but.setStyle(stalive);}
                 else {but.setStyle(stdead);}
                 //set size
                 but.setMinSize((1/width)*20, (1/height)*20);
-                but.setPrefSize(board.getWidth(), board.getHeight());
+                but.setPrefSize(guiboard.getWidth(), guiboard.getHeight());
                 //add acions
                 but.setOnMouseClicked(event -> {changeQueue(xf,yf);
                     // add change of style on click
@@ -63,18 +68,25 @@ public class FXMLController implements Initializable {
                     else {but.setStyle(stdead);
                     }
                 });
-                board.add(but, x, y);
+                guiboard.add(but, x, y);
             }
         }
     }
     @FXML
     private void nextstep() {
-        data.step(input);
+        board.step(input);
         input.clear();
         /*code here for changing buttons
         Along the lines of (button from somelist ).change()
         */
-        
+ 
+        board.getCurrent().stream().forEach(cell->{
+            
+                if (gboardarray[cell.x][cell.y].getState()){};
+                gboardarray[cell.x][cell.y].setState(true);
+
+        });
+
     }
     private void changeQueue(int x, int y){
         if (input.contains(new Coords(x,y))){input.remove(new Coords(x,y));}
@@ -88,6 +100,5 @@ public class FXMLController implements Initializable {
         /*input.add(new Coords(2, 1));
         input.add(new Coords(2, 2));
         input.add(new Coords(2, 3));*/
-    } 
-    
+    }  
 }

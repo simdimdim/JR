@@ -79,7 +79,7 @@ public class Board{
     public boolean drawCheck(int x, int y){
         return cur.contains(x, y);
     }
-    public Set getCurrent(){
+    public Set<Coords> getCurrent(){
         return cur.board.keySet();
     }
     /**  
