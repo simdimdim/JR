@@ -24,10 +24,10 @@ public class Controls {
     public Coords getSize(int n){
         return new Coords(Main.boards.get(n).size);
     }
-   /** 
+   /**
     * Creates a new board.
-    * @param width x of the new board
-    * @param height y of the new board
+    * @param width width of the new board
+    * @param height height of the new board
     * @return the created board.
     */
     static public Board create(int width,int height){

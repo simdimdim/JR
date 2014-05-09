@@ -13,7 +13,7 @@ package jr;
 public class Coords {
     public int x;
     public int y;
-    
+
     public Coords(int x, int y){
         this.x=x;
         this.y=y;
@@ -26,7 +26,7 @@ public class Coords {
         x=0;
         y=0;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (o == null) {

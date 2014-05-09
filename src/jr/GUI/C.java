@@ -17,52 +17,46 @@ import jr.Queue;
  */
 public class C extends Region {
     private static final String STYLECLASS = "grid-cell";
-    
-    private static final PseudoClass DEAD = 
+    private static final PseudoClass DEAD =
             PseudoClass.getPseudoClass("dead");
-    private static final PseudoClass ALIVE = 
+    private static final PseudoClass ALIVE =
             PseudoClass.getPseudoClass("alive");
-   
     public C(int x, int y, Queue input){
         setVisible(true);
         pseudoClassStateChanged(ALIVE, true);
         pseudoClassStateChanged(DEAD, false);
-        getStyleClass().setAll(STYLECLASS); // set css styleclass
-        this.setOnMouseClicked(event -> {
-            input.change(x,y);
-            // add change of style on click
-            // possible to add more conditions and wrap it up in a function later
-            if (!getState()){setStyle(":alive");}
-            else {setStyle(":dead");}
+        getStyleClass().setAll(STYLECLASS);     // set css styleclass
+        setState(false);                        // default to dead
+        
+        // On click
+        setOnMouseClicked(event -> {
+                    input.change(x,y);
+                    toggleState();
         });
         
-        //size
-        setMinSize(3, 3);
-        setPrefSize(2000, 2000);
+        // cell sizes
+        setMinSize(5, 5);
+        setPrefSize(60, 60);
     }
     public C(Coords c, Queue input){
         setVisible(true);
         pseudoClassStateChanged(ALIVE, true);
         pseudoClassStateChanged(DEAD, false);
         getStyleClass().setAll(STYLECLASS); // set css styleclass
-        this.setOnMouseClicked(event -> {
-            input.change(c);
-            // add change of style on click
-            // possible to add more conditions and wrap it up in a function later
-            if (!getState()){setStyle("alive");}
-            else {setStyle("dead");}
+        setState(false);
+        setOnMouseClicked(event -> {input.change(c);
+            toggleState();
         });
         
         //size
-        setMinSize((1/c.x)*20, (1/c.y)*20);
-        setPrefSize(2000*c.x, 2000*c.y);
+        setMinSize(4, 4);
+        setPrefSize(2000, 2000);
     }
-    
-    public void setState(boolean val) {
-        pseudoClassStateChanged(DEAD, !val); // reflect state by pseudoclass
-        pseudoClassStateChanged(ALIVE, val);}
     public boolean getState() {
         return getPseudoClassStates().contains(ALIVE);}
-    public void toggleState() {
+    private void setState(boolean val) {
+        pseudoClassStateChanged(DEAD, !val); // reflect state by pseudoclass
+        pseudoClassStateChanged(ALIVE, val);}
+    public final void toggleState() {
         setState(!getState());}
 }

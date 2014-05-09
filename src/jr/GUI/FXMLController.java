@@ -25,27 +25,30 @@ public class FXMLController implements Initializable {
     //elements declaration
     @FXML
     GridPane guiboard;
-    @FXML 
+    @FXML
     Button create;
     @FXML
     Button next;
-    
+
     //functions declarations
     @FXML
     private void newboard() {
-        board = Controls.create(80,80);
-        System.out.println(guiboard);
+        board = Controls.create(50,50);
         for (int x=0; x<board.size.x; x++){
             for (int y=0; y<board.size.y; y++){
                 //set state
-                //if (board.drawCheck(x, y)){but.setStyle("alive");}
+                //if (board.onBoard(x, y)){but.setStyle("alive");}
                 //else {but.setStyle("dead");}
                 //set size
-                guiboard.add(board.getGUICell(x, y),x,y);
+                if (board.onBoard(x,y)){
+                    board.toggle(x,y);
+                }
+                guiboard.add(board.getGCell(x, y),x,y);
             }
         }
+        System.out.println(guiboard);
     }
-    
+
     @FXML
     private void nextstep() {
         board.step();
@@ -53,16 +56,17 @@ public class FXMLController implements Initializable {
         Along the lines of (button from somelist ).change()
         */
     }
-    
+
     /**
      * Automatically called on object creation. Initialize everything here.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        newboard();
         /*
         input.add(2, 1);
         input.add(2, 2);
         input.add(2, 3);
         */
-    }  
+    }
 }

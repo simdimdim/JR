@@ -24,7 +24,7 @@ public class Cell extends Coords{
         y=p.y;
     }
     /**Returns a List Coords of neighbors
-     * 
+     *
      * @return List of up to 8 Coords() of the cell
      */
     public List<Coords> getNeighbours(){
@@ -32,7 +32,7 @@ public class Cell extends Coords{
         for (int w=x-1;w<=x+1;w++){
             for (int h=y-1;h<=y+1;h++){
                 //to be removed or substitued with < width or height
-                if (w<0||h<0) continue; 
+                if (w<0||h<0) continue;
                 //if (w==x||h==y) continue;
                 neighbours.add(new Coords(w,h));
             }

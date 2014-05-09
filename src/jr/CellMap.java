@@ -6,26 +6,28 @@
 
 package jr;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  *
  * @author thedoctor
  */
 public class CellMap{
-    /** for serialization... (so compiler doesn't complain) */ 
-    private static final long serialVersionUID = 1L; 
+    /** for serialization... (so compiler doesn't complain) */
+    private static final long serialVersionUID = 1L;
     int width;
     int height;
     HashMap<Coords,Cell> board;
-    
+
     public CellMap(int x, int y) {
         board = new HashMap<>();
         width=x ;
         height=y;
     }
 /** Fill the board with cells
- * Constructor. Specified size can be changed later. 
+ * Constructor. Specified size can be changed later.
  * @param cell Cell to fill the array with
  * @param startw filling starting point (on the horizontal)
  * @param stopw filling stopping point (on the horizontal)
@@ -50,11 +52,14 @@ public class CellMap{
     public Cell get(int x, int y){
         return board.get(new Coords(x,y));
     }
-    public Coords getCoords(Cell cell){
-        return new Coords(cell.x,cell.y);
-    }
     public Cell getCell(Coords cord){
         return board.get(cord);
+    }
+    public Set<Coords> getCoords(){
+        return board.keySet();
+    }
+    public Collection<Cell> getCells(){
+        return board.values();
     }
     public void put(int x, int y){
         board.put(new Coords(x,y), new Cell(x,y));
@@ -112,6 +117,6 @@ public class CellMap{
                 }
             }
         }
-        return neighbours; 
+        return neighbours;
     }
 }

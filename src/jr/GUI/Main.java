@@ -22,15 +22,17 @@ import jr.Board;
 public class Main extends Application {
     // <board>
     public static HashMap<Integer,Board> boards = new HashMap<>();
-    private static int id=0; //is there another way?
+    private static int id=0;
+
     /**
      * Generates unique id for new board.
-     * @return 
+     * @return
      */
     public static int generateNewBoardId() {
         id++;
         return id-1;
     }
+
     /**
      * Adds board with specified id.
      * @param _id index.
@@ -43,7 +45,7 @@ public class Main extends Application {
         return _id;
     }
     // </board>
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
@@ -51,11 +53,11 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         launch(args);
     }
-    
 }
