@@ -16,22 +16,37 @@ import jr.Coords;
  */
 public class C extends Region {
     private static final String STYLECLASS = "grid-cell";
-    public boolean state;
+    
+    private static final PseudoClass DEAD = 
+            PseudoClass.getPseudoClass("dead");
+    private static final PseudoClass ALIVE = 
+            PseudoClass.getPseudoClass("alive");
+    
     public C(int x, int y){
         setVisible(true);
-        state = true;
+        pseudoClassStateChanged(ALIVE, true);
+        pseudoClassStateChanged(DEAD, false);
         getStyleClass().setAll(STYLECLASS); // set css styleclass
+        this.setOnMouseClicked(event -> {
+            //input.change(x,y);
+            // add change of style on click
+            // possible to add more conditions and wrap it up in a function later
+            if (!getState()){setStyle("alive");}
+            else {setStyle("dead");}
+        });
     }
     public C(Coords c){
         setVisible(true);
-        state = true;
+        pseudoClassStateChanged(ALIVE, true);
+        pseudoClassStateChanged(DEAD, false);
         getStyleClass().setAll(STYLECLASS); // set css styleclass
     }
     
     public void setState(boolean val) {
-        state=val;}
+        pseudoClassStateChanged(DEAD, !val); // reflect state by pseudoclass
+        pseudoClassStateChanged(ALIVE, val);}
     public boolean getState() {
-        return state;}
+        return getPseudoClassStates().contains(ALIVE);}
     public void toggleState() {
         setState(!getState());}
 }

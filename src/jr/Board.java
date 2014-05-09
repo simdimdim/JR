@@ -17,14 +17,15 @@ public class Board{
     boolean running;
     CellMap cur;
     CellMap next;
-    public int number;
+    Queue input;
+    public int id;
     /** Size of the board. Initialized to 0. */
     public final Coords size = new Coords(0, 0);
     
     /**  
      * Constructor. Specified size can be changed later. 
-     * @param x size.y in number of cells 
-     * @param y size.x in number of cells 
+     * @param x size.y in id of cells 
+     * @param y size.x in id of cells 
      * @param n board ID
      */ 
     public Board(int x, int y, int n) {
@@ -32,22 +33,23 @@ public class Board{
         size.y=y;
         cur = new CellMap(x,y);
         next = new CellMap(x,y);
+        input = new Queue();
         running=true;  
-        this.number=n;
+        this.id=n;
     }
-    public void step(Set<Coords> queue){
+    public void step(){
         //System.out.println(toString(cur));
-        change(queue); // applies input
-        applylogic();  // applies GoL logic 
-        cur.empty();
-        cur.putAll(next);
-        next.empty();
+        change();           // applies input
+        applylogic();       // applies GoL logic 
+        cur.empty();        // empty current board
+        cur.putAll(next);   // copy next step to current
+        next.empty();       // clean
         // stop simulation if no cells remain
         if(cur.isEmpty()) {
             stop();}
     }
-    void change(Set<Coords> queue){
-        queue.stream().forEach((Coords p)->{
+    void change(){
+        input.get().stream().forEach((Coords p)->{
             if (cur.contains(p)){
                 cur.remove(p);}
             else{

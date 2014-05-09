@@ -21,7 +21,7 @@ import jr.Board;
  */
 public class Main extends Application {
     // <board>
-    public static HashMap<Integer,Board> all = new HashMap<>();
+    public static HashMap<Integer,Board> boards = new HashMap<>();
     private static int id=0; //is there another way?
     /**
      * Generates unique id for new board.
@@ -33,10 +33,13 @@ public class Main extends Application {
     }
     /**
      * Adds board with specified id.
+     * @param _id index.
+     * @param board Board.
+     * @param queue inputs queue source for the board.
      * @return index of the board.
      */
-    public static int addBoard(int _id, Board b) {
-        all.put(_id, b);
+    public static int addBoard(int _id, Board board) {
+        boards.put(_id, board);
         return _id;
     }
     // </board>
