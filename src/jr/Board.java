@@ -7,6 +7,7 @@
 package jr; 
 
 import java.util.Set;
+import jr.GUI.C;
 
 /** 
  * Area for the Cells. 
@@ -18,6 +19,7 @@ public class Board{
     CellMap cur;
     CellMap next;
     Queue input;
+    C[][] guicellarray;
     public int id;
     /** Size of the board. Initialized to 0. */
     public final Coords size = new Coords(0, 0);
@@ -34,19 +36,18 @@ public class Board{
         cur = new CellMap(x,y);
         next = new CellMap(x,y);
         input = new Queue();
+        guicellarray = new C[x][y]; 
+        for (int w=0;w<x;w++){
+            for (int h=0;h<y;h++){
+                C cell = new C(w,h,input);
+                guicellarray[w][h] = cell;
+            }
+        }
         running=true;  
         this.id=n;
     }
-    public void step(){
-        //System.out.println(toString(cur));
-        change();           // applies input
-        applylogic();       // applies GoL logic 
-        cur.empty();        // empty current board
-        cur.putAll(next);   // copy next step to current
-        next.empty();       // clean
-        // stop simulation if no cells remain
-        if(cur.isEmpty()) {
-            stop();}
+    public C getGUICell(int x, int y){
+        return guicellarray[x][y];
     }
     void change(){
         input.get().stream().forEach((Coords p)->{
@@ -70,8 +71,29 @@ public class Board{
                     }
                 });
     }
+    public void step(){
+        //System.out.println(toString(cur));
+        change();           // applies input
+        applylogic();       // applies GoL logic 
+        cur.empty();        // empty current board
+        cur.putAll(next);   // copy next step to current
+        next.empty();       // clean
+        input.empty();      // make way for new input
+        // stop simulation if no cells remain
+        if(cur.isEmpty()) {
+            stop();}
+    }
     public void stop(){
         running=false;
+    }
+    public void toQueue(int x, int y){
+        input.add(x, y);
+    }
+    public boolean inQueue(int x, int y){
+        return input.contains(x, y);
+    }
+    public Queue getQueue(){
+        return input;
     }
     public Board resize(int x, int y){
         cur.extendandremap(x, y);
