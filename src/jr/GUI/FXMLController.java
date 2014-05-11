@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import jr.Board;
+import jr.C;
 import jr.Controls;
 
 /**
@@ -38,11 +39,15 @@ public class FXMLController implements Initializable {
     @FXML
     private void newboard() {
         board = Controls.create(75, 45);
-        for ( int x = 0; x < board.size.x; x++ ) {
-            guiboard.addColumn(x, new C(x, 0, board.getQueue()));
+        for ( int x = board.size.x; x > 0; x-- ) {
+            C cell = new C(board.size.x, x, board.getQueue());
+            cell.setVisible(false);
+            guiboard.addColumn(x, cell);
         }
-        for ( int y = 0; y < board.size.y; y++ ) {
-            guiboard.addRow(y, new C(y, 0, board.getQueue()));
+        for ( int y = board.size.y; y > 0; y-- ) {
+            C cell = new C(board.size.y, y, board.getQueue());
+            cell.setVisible(false);
+            guiboard.addRow(y, cell);
         }
         /*                //set state                //if (board.onBoard(x, y)){but.setStyle("alive");}
          //else {but.setStyle("dead");}
@@ -61,25 +66,25 @@ public class FXMLController implements Initializable {
         board.step();
         guiUpdate();
     }
-    private void guiUpdate(){
-        board.getDifference().stream().forEach(key->{
-        // This needs fixing getting IndexOutofArray exception without it..
-            if(key.x<board.getX() && key.y<board.getY()){
+    private void guiUpdate() {
+        board.getDifference().stream().forEach(key -> {
+            // This needs fixing getting IndexOutofArray exception without it..
+            if ( key.x < board.getX() && key.y < board.getY() ) {
                 ObservableList<Node> childrens = guiboard.getChildren();
-                for(Node node : childrens) {
-                    if(guiboard.getRowIndex(node) == key.y &&
-                       guiboard.getColumnIndex(node) == key.x) {
-                        if (node instanceof C){
+                for ( Node node: childrens ) {
+                    if ( guiboard.getRowIndex(node) == key.y &&
+                         guiboard.getColumnIndex(node) == key.x ) {
+                        if ( node instanceof C ) {
                             // FIXME
                             // node.toggleState();
                         }
-                       break;
+                        break;
                     }
                 }
             }
         });
     }
-    
+
     /**
      * Automatically called on object creation. Initialize everything here.
      */

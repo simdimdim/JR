@@ -15,13 +15,16 @@ import java.util.List;
 public class Cell extends Coords {
 
     boolean alive = true;
-    public Cell( int x, int y ) {
+    final C gui;
+    public Cell( int x, int y, Queue input ) {
         this.x = x;
         this.y = y;
+        gui=new C(x,y,input);
     }
-    public Cell( Coords p ) {
+    public Cell( Coords p, Queue input ) {
         x = p.x;
         y = p.y;
+        gui=new C(p,input);
     }
     /**
      * Returns a List Coords of neighbors
@@ -44,5 +47,8 @@ public class Cell extends Coords {
     }
     public int getStateAsInt() {
         return alive == true ? 1 : 0;
+    }
+    public C getGui(){
+        return gui;
     }
 }

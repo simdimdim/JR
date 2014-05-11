@@ -3,19 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jr.GUI;
+package jr;
 
 import javafx.css.PseudoClass;
 import javafx.scene.layout.Region;
-import jr.Coords;
-import jr.Queue;
 
 /**
  *
  * @author Plutonium_
  */
 public class C extends Region {
-
     private static final String STYLECLASS = "grid-cell";
     private static final PseudoClass DEAD =
                                      PseudoClass.getPseudoClass("dead");
@@ -30,6 +27,7 @@ public class C extends Region {
 
         // On click
         setOnMouseClicked(event -> {
+            setVisible(true);
             input.change(x, y);
             toggleState();
         });
@@ -45,6 +43,7 @@ public class C extends Region {
         getStyleClass().setAll(STYLECLASS); // set css styleclass
         setState(false);
         setOnMouseClicked(event -> {
+            setVisible(true);
             input.change(c);
             toggleState();
         });

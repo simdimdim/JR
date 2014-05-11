@@ -39,13 +39,13 @@ public class CellMap {
      * @param stoph filling stopping point (on the vertical)
      *
      */
-    public void fill( Cell cell, int startw, int stopw, int starth, int stoph ) {
+    public void fill( Cell cell, Queue queue, int startw, int stopw, int starth, int stoph ) {
         for ( int w = startw; w <= stopw - 1; w++ ) {
             for ( int h = starth; h <= stoph - 1; h++ ) {
                 if ( w < 0 || h < 0 ) {
                     continue;
                 }
-                put(w, h);
+                put(w, h, queue);
             }
         }
     }
@@ -70,11 +70,11 @@ public class CellMap {
     public Collection<Cell> getCells() {
         return board.values();
     }
-    public void put( int x, int y ) {
-        board.put(new Coords(x, y), new Cell(x, y));
+    public void put( int x, int y, Queue queue ) {
+        board.put(new Coords(x, y), new Cell(x, y,queue));
     }
-    public void put( Coords cord ) {
-        board.put(cord, new Cell(cord));
+    public void put( Coords cord, Queue queue) {
+        board.put(cord, new Cell(cord, queue));
     }
     public void putAll( CellMap board ) {
         this.board.putAll(board.board);
@@ -101,15 +101,15 @@ public class CellMap {
     public HashMap copy() {
         return this.board;
     }
-    public CellMap getExtendedRemap( int x, int y ) {
+    public CellMap getExtendedRemap( int x, int y , Queue queue) {
         CellMap newboard = new CellMap(width + 2 * x, height + 2 * y);
         board.values().stream().forEach(( Cell cell ) -> {
-            newboard.put(cell.x + x, cell.y + y);
+            newboard.put(cell.x + x, cell.y + y, queue);
         });
         return newboard;
     }
-    public void extendandremap( int x, int y ) {
-        CellMap newboard = getExtendedRemap(x, y);
+    public void extendandremap( int x, int y, Queue queue) {
+        CellMap newboard = getExtendedRemap(x, y, queue);
         putAll(newboard);
     }
     public short check( Coords cord ) {

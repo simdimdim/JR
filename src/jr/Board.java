@@ -7,7 +7,6 @@ package jr;
 
 import com.google.common.collect.Sets;
 import java.util.Set;
-import jr.GUI.C;
 
 /**
  * Area for the Cells.
@@ -20,11 +19,8 @@ public class Board {
     CellMap cur;
     CellMap next;
     Queue input;
-    C[][] guicellarray;
     public int id;
-    /**
-     * Size of the board. Initialized to 0.
-     */
+    /*Size of the board. Initialized to 0.*/
     public final Coords size = new Coords(0, 0);
 
     /**
@@ -40,13 +36,6 @@ public class Board {
         cur = new CellMap(x, y);
         next = new CellMap(x, y);
         input = new Queue();
-        guicellarray = new C[x][y];
-        for ( int w = 0; w < x; w++ ) {
-            for ( int h = 0; h < y; h++ ) {
-                C cell = new C(w, h, input);
-                guicellarray[w][h] = cell;
-            }
-        }
         running = true;
         this.id = n;
     }
@@ -70,7 +59,7 @@ public class Board {
                 cur.remove(p);
             }
             else {
-                cur.put(p);
+                cur.put(p,this.input);
             }
         });
     }
@@ -82,11 +71,11 @@ public class Board {
                 .forEach(( Coords p ) -> {
                     //forEach mate if alive adds to next
                     if ( cur.check(p) == 2 && cur.contains(p) ) {
-                        next.put(p);
+                        next.put(p,input);
                     }
                     else {
                         if ( cur.check(p) == 3 ) {
-                            next.put(p);
+                            next.put(p, input);
                         }
                     }
                 });
@@ -104,15 +93,6 @@ public class Board {
     public void stop() {
         running = false;
     }
-    public C getGCell( int x, int y ) {
-        return guicellarray[x][y];
-    }
-    public void toggle( int x, int y ) {
-        guicellarray[x][y].toggleState();
-    }
-    public void toggle( Coords c ) {
-        guicellarray[c.x][c.y].toggleState();
-    }
     public void toQueue( int x, int y ) {
         input.add(x, y);
     }
@@ -125,9 +105,12 @@ public class Board {
     public boolean onBoard( int x, int y ) {
         return cur.contains(x, y);
     }
+    public C getguicell(int x, int y){
+        return cur.get(x, y).getGui();
+    }
     public Board resize( int x, int y ) {
-        cur.extendandremap(x, y);
-        next.extendandremap(x, y);
+        cur.extendandremap(x, y, input);
+        next.extendandremap(x, y,input );
         return this;
     }
     /**
