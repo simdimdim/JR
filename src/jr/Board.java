@@ -6,6 +6,7 @@
 package jr;
 
 import com.google.common.collect.Sets;
+import java.util.Set;
 import jr.GUI.C;
 
 /**
@@ -54,7 +55,6 @@ public class Board {
         //System.out.println(toString(cur));  // check output
         change();           // applies input
         applylogic();       // applies GoL logic
-        updategui();        // changes what needs to be changed in guicellarray
         cur.empty();        // empty current board
         cur.putAll(next);   // copy next step to current
         next.empty();       // clean
@@ -91,14 +91,9 @@ public class Board {
                     }
                 });
     }
-    void updategui() {
-        Sets.symmetricDifference(cur.board.keySet(), next.board.keySet())
-                .stream().forEach(key -> {
-// FIXME getting IndexOutofArray exception without an out of bonds check...
-                    if ( key.x < size.x && key.y < size.y ) {
-                        toggle(key);
-                    }
-                });
+    public Set<Coords> getDifference() {
+        return Sets.symmetricDifference(
+                cur.board.keySet(), next.board.keySet());
     }
     public int getX() {
         return size.x;

@@ -7,8 +7,10 @@ package jr.GUI;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import jr.Board;
@@ -57,11 +59,27 @@ public class FXMLController implements Initializable {
     @FXML
     private void nextstep() {
         board.step();
-        /*code here for changing buttons
-         Along the lines of (button from somelist ).change()
-         */
+        guiUpdate();
     }
-
+    private void guiUpdate(){
+        board.getDifference().stream().forEach(key->{
+        // This needs fixing getting IndexOutofArray exception without it..
+            if(key.x<board.getX() && key.y<board.getY()){
+                ObservableList<Node> childrens = guiboard.getChildren();
+                for(Node node : childrens) {
+                    if(guiboard.getRowIndex(node) == key.y &&
+                       guiboard.getColumnIndex(node) == key.x) {
+                        if (node instanceof C){
+                            // FIXME
+                            // node.toggleState();
+                        }
+                       break;
+                    }
+                }
+            }
+        });
+    }
+    
     /**
      * Automatically called on object creation. Initialize everything here.
      */
