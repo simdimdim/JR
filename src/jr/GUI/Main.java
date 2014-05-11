@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jr.GUI;
 
 import java.util.HashMap;
@@ -20,34 +19,37 @@ import jr.Board;
  * @author thedoctor
  */
 public class Main extends Application {
+
     // <board>
-    public static HashMap<Integer,Board> boards = new HashMap<>();
-    private static int id=0;
+    public static HashMap<Integer, Board> boards = new HashMap<>();
+    private static int id = 0;
 
     /**
      * Generates unique id for new board.
+     *
      * @return
      */
     public static int generateNewBoardId() {
         id++;
-        return id-1;
+        return id - 1;
     }
 
     /**
      * Adds board with specified id.
+     *
      * @param _id index.
      * @param board Board.
      * @param queue inputs queue source for the board.
      * @return index of the board.
      */
-    public static int addBoard(int _id, Board board) {
+    public static int addBoard( int _id, Board board ) {
         boards.put(_id, board);
         return _id;
     }
     // </board>
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start( Stage stage ) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -57,7 +59,7 @@ public class Main extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main( String[] args ) {
         launch(args);
     }
 }
