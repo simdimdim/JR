@@ -6,15 +6,18 @@
 package jr.GUI;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import jr.Board;
-import jr.C;
 import jr.Controls;
 
 /**
@@ -39,26 +42,26 @@ public class FXMLController implements Initializable {
     @FXML
     private void newboard() {
         board = Controls.create(75, 45);
-        for ( int x = board.size.x; x > 0; x-- ) {
-            C cell = new C(board.size.x, x, board.getQueue());
-            cell.setVisible(false);
-            guiboard.addColumn(x, cell);
+        List<ColumnConstraints> colconstr = new ArrayList();
+        List<RowConstraints> rowconstr = new ArrayList();
+        
+        float minsize = 4;
+        float prefsize = 60;
+        
+        for ( int x = 0; x < board.size.x; x++ ) {
+            ColumnConstraints column = new ColumnConstraints();
+            column.setMinWidth(minsize);
+            column.setPrefWidth(prefsize);
+            colconstr.add(column);
         }
-        for ( int y = board.size.y; y > 0; y-- ) {
-            C cell = new C(board.size.y, y, board.getQueue());
-            cell.setVisible(false);
-            guiboard.addRow(y, cell);
+        for ( int y = 0; y < board.size.y; y++ ) {
+            RowConstraints row = new RowConstraints();
+            row.setMinHeight(minsize);
+            row.setPrefHeight(prefsize);
+            rowconstr.add(row);
         }
-        /*                //set state                //if (board.onBoard(x, y)){but.setStyle("alive");}
-         //else {but.setStyle("dead");}
-         //set size
-         if (board.onBoard(x,y)){
-         board.toggle(x,y);
-         }
-         guiboard.add(board.getGCell(x, y),x,y);
-         }
-         }
-         System.out.println(guiboard);*/
+        guiboard.getColumnConstraints().addAll(colconstr);
+        guiboard.getRowConstraints().addAll(rowconstr);
     }
 
     @FXML

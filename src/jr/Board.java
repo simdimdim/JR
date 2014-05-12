@@ -5,6 +5,7 @@
  */
 package jr;
 
+import jr.GUI.C;
 import com.google.common.collect.Sets;
 import java.util.Set;
 

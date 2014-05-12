@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jr;
+package jr.GUI;
 
 import javafx.css.PseudoClass;
 import javafx.scene.layout.Region;
+import jr.Coords;
+import jr.Queue;
 
 /**
  *
@@ -31,10 +33,6 @@ public class C extends Region {
             input.change(x, y);
             toggleState();
         });
-
-        // cell sizes
-        setMinSize(5, 5);
-        setPrefSize(60, 60);
     }
     public C( Coords c, Queue input ) {
         setVisible(true);
@@ -47,10 +45,6 @@ public class C extends Region {
             input.change(c);
             toggleState();
         });
-
-        //size
-        setMinSize(4, 4);
-        setPrefSize(2000, 2000);
     }
     public boolean getState() {
         return getPseudoClassStates().contains(ALIVE);
