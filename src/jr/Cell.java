@@ -5,7 +5,6 @@
  */
 package jr;
 
-import jr.GUI.C;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,16 +15,13 @@ import java.util.List;
 public class Cell extends Coords {
 
     boolean alive = true;
-    final C gui;
-    public Cell( int x, int y, Queue input ) {
+    public Cell( int x, int y) {
         this.x = x;
         this.y = y;
-        gui=new C(x,y,input);
     }
-    public Cell( Coords p, Queue input ) {
+    public Cell( Coords p) {
         x = p.x;
         y = p.y;
-        gui=new C(p,input);
     }
     /**
      * Returns a List Coords of neighbors
@@ -49,7 +45,5 @@ public class Cell extends Coords {
     public int getStateAsInt() {
         return alive == true ? 1 : 0;
     }
-    public C getGui(){
-        return gui;
-    }
+
 }

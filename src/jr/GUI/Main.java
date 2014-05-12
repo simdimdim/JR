@@ -11,6 +11,7 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import jr.Board;
 
@@ -51,7 +52,7 @@ public class Main extends Application {
     @Override
     public void start( Stage stage ) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, Color.BLACK);
         stage.setScene(scene);
         stage.show();
     }

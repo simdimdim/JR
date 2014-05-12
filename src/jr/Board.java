@@ -5,7 +5,6 @@
  */
 package jr;
 
-import jr.GUI.C;
 import com.google.common.collect.Sets;
 import java.util.Set;
 
@@ -21,8 +20,8 @@ public class Board {
     CellMap next;
     Queue input;
     public int id;
-    /*Size of the board. Initialized to 0.*/
-    public final Coords size = new Coords(0, 0);
+    /*Size of the board. Initialized to 1, to avoid dividing by 0 errors */
+    public final Coords size = new Coords(1, 1);
 
     /**
      * Constructor. Specified size can be changed later.
@@ -42,12 +41,12 @@ public class Board {
     }
 
     public void step() {
+        next.empty();       // clean
         //System.out.println(toString(cur));  // check output
         change();           // applies input
         applylogic();       // applies GoL logic
         cur.empty();        // empty current board
         cur.putAll(next);   // copy next step to current
-        next.empty();       // clean
         input.empty();      // make way for new input
         // stop simulation if no cells remain
         if ( cur.isEmpty() ) {
@@ -60,7 +59,7 @@ public class Board {
                 cur.remove(p);
             }
             else {
-                cur.put(p,this.input);
+                cur.put(p);
             }
         });
     }
@@ -72,11 +71,11 @@ public class Board {
                 .forEach(( Coords p ) -> {
                     //forEach mate if alive adds to next
                     if ( cur.check(p) == 2 && cur.contains(p) ) {
-                        next.put(p,input);
+                        next.put(p);
                     }
                     else {
                         if ( cur.check(p) == 3 ) {
-                            next.put(p, input);
+                            next.put(p);
                         }
                     }
                 });
@@ -97,21 +96,27 @@ public class Board {
     public void toQueue( int x, int y ) {
         input.add(x, y);
     }
+    public void toQueue( Coords c ) {
+        input.add(c);
+    }
     public Queue getQueue() {
         return input;
     }
     public boolean inQueue( int x, int y ) {
         return input.contains(x, y);
     }
+    public boolean inQueue( Coords c ) {
+        return input.contains(c);
+    }
     public boolean onBoard( int x, int y ) {
         return cur.contains(x, y);
     }
-    public C getguicell(int x, int y){
-        return cur.get(x, y).getGui();
+    public boolean onBoard(Coords c  ) {
+        return cur.contains(c);
     }
     public Board resize( int x, int y ) {
-        cur.extendandremap(x, y, input);
-        next.extendandremap(x, y,input );
+        cur.extendandremap(x, y);
+        next.extendandremap(x, y);
         return this;
     }
     /**

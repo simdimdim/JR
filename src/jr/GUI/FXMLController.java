@@ -5,18 +5,14 @@
  */
 package jr.GUI;
 
+
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import jr.Board;
 import jr.Controls;
 
@@ -25,45 +21,31 @@ import jr.Controls;
  * @author thedoctor
  */
 public class FXMLController implements Initializable {
-
-    /**
-     * guiboard data
-     */
-    private Board board;
     //elements declaration
     @FXML
-    GridPane guiboard;
+    AnchorPane ap;
+    @FXML
+    YouKnowWhatCanvas guiboard;
     @FXML
     Button create;
     @FXML
     Button next;
+    
+    //other decs
+    private Board board;
 
     //functions declarations
     @FXML
     private void newboard() {
         board = Controls.create(75, 45);
-        List<ColumnConstraints> colconstr = new ArrayList();
-        List<RowConstraints> rowconstr = new ArrayList();
-        
-        float minsize = 4;
-        float prefsize = 60;
-        
+        guiboard.getGraphicsContext2D().setFill(Color.BLACK);
+        guiboard.getGraphicsContext2D().setStroke(Color.GREEN);
         for ( int x = 0; x < board.size.x; x++ ) {
-            ColumnConstraints column = new ColumnConstraints();
-            column.setMinWidth(minsize);
-            column.setPrefWidth(prefsize);
-            //column.setPercentWidth(100/board.size.x);
-            colconstr.add(column);
+            //gb.fill();
         }
         for ( int y = 0; y < board.size.y; y++ ) {
-            RowConstraints row = new RowConstraints();
-            row.setMinHeight(minsize);
-            row.setPrefHeight(prefsize);
-            //row.setPercentHeight(100/board.size.y);  //needs some tweaking to work
-            rowconstr.add(row);
-        }
-        guiboard.getColumnConstraints().addAll(colconstr);
-        guiboard.getRowConstraints().addAll(rowconstr);
+
+        }   
     }
 
     @FXML
@@ -73,57 +55,33 @@ public class FXMLController implements Initializable {
     }
     private void guiUpdate() {
         board.getDifference().stream().forEach(key -> {
-            // This needs fixing getting IndexOutofArray exception without it..
-            if ( key.x < board.getX() && key.y < board.getY() ) {
-                ObservableList<Node> childrens = guiboard.getChildren();
-                for ( Node node: childrens ) {
-                    if ( guiboard.getRowIndex(node) == key.y &&
-                         guiboard.getColumnIndex(node) == key.x ) {
-                        if ( node instanceof C ) {
-                            // FIXME
-                            // node.toggleState();
-                        }
-                        break;
-                    }
-                }
-            }
         });
     }
 
     /**
      * Automatically called on object creation. Initialize everything here.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize( URL url, ResourceBundle rb ) {
+        ap.widthProperty().addListener(
+                (observableValue, oldValue, newValue)-> {
+                    guiboard.setWidth(newValue.doubleValue());
+                    guiboard.redraw(board);
+                });
+        ap.heightProperty().addListener(
+                (observableValue, oldValue, newValue)-> {
+                    guiboard.setHeight(newValue.doubleValue());
+                    guiboard.redraw(board);
+                });
+        newboard();
         guiboard.setOnMousePressed(e -> {
             double x = e.getX();
             double y = e.getY();
-
-            double width = guiboard.getWidth();
-            double height = guiboard.getHeight();
-
-            int col = board.getX();
-            int row = board.getY();
-
-            double gapx = guiboard.getHgap();
-            double gapy = guiboard.getVgap();
-
-            double avgecellx = ( width / col );
-            double avgecelly = ( height / row );
-
-            //avgecellx -= 2 * gapx;
-            //avgecelly += gapy;
-// FIXME math's wrong; It's wrong on the horizontal
-            int cx = ( int ) Math.round(x / avgecellx);
-            int cy = ( int ) Math.round(y / avgecelly);
-
-            guiboard.add(new C(cx, cy, board.getQueue()), cx, cy);
+            System.out.println(x+" "+y);
+            
+            //board.toQueue(guiboard.getCell(board,x,y));
         });
-        newboard();
-        /*
-         input.add(2, 1);
-         input.add(2, 2);
-         input.add(2, 3);
-         */
     }
 }
