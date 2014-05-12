@@ -42,8 +42,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void nextstep() {
-        board.step();
-        guiboard.drawChange(board);
+        guiboard.drawChange(board, board.step());
     }
 
     /**

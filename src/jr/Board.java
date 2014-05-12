@@ -19,7 +19,6 @@ public class Board {
     CellMap cur;
     CellMap next;
     Queue input;
-    private Set<Coords> diff;
     public int id;
     /*Size of the board. Initialized to 1, to avoid dividing by 0 errors */
     public final Coords size = new Coords(1, 1);
@@ -41,24 +40,24 @@ public class Board {
         this.id = n;
     }
 
-    public void step() {
+    public Set<Coords> step() {
+        next.empty();       // clean
         //System.out.println(toString(cur));  // check output
         change();           // applies input
         applylogic();       // applies GoL logic
-        diff = Sets.symmetricDifference(cur.board.keySet(),
-                                        next.board.keySet());
+        Set<Coords> diff = Sets.symmetricDifference(
+                    cur.board.keySet(), next.board.keySet()).immutableCopy();
         cur.empty();        // empty current board
         cur.putAll(next);   // copy next step to current
-        next.empty();       // clean
         input.empty();      // make way for new input
         // stop simulation if no cells remain
         if ( cur.isEmpty() ) {
             stop();
         }
+        return diff;
     }
     void change() {
         input.get().stream().forEach(( Coords p ) -> {
-
             if ( cur.contains(p) ) {
                 cur.remove(p);
             }
@@ -83,9 +82,6 @@ public class Board {
                         }
                     }
                 });
-    }
-    public Set<Coords> getDifference() {
-        return diff;
     }
     public int getX() {
         return size.x;

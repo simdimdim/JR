@@ -5,6 +5,7 @@
  */
 package jr.GUI;
 
+import java.util.Set;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -47,7 +48,8 @@ public class YouKnowWhatCanvas extends Canvas {
                     avgcelly - modifier);
     }
     private void draw( double modifier, double x, double y ) {
-        gb.fillRect(x + modifier, y + modifier, avgcellx - modifier, avgcelly - modifier);
+        gb.fillRect(x + modifier, y + modifier, avgcellx - modifier, avgcelly -
+                                                                     modifier);
     }
     public final double getW() {
         return gb.getCanvas().getWidth();
@@ -61,7 +63,7 @@ public class YouKnowWhatCanvas extends Canvas {
         int w = ( int ) Math.floor(x / avgcellx);
         int h = ( int ) Math.floor(y / avgcelly);
         Coords c = new Coords(w, h);
-        change(board, c);
+        changeQueue(board, c);
         return c;
     }
     public void refresh( Board b ) {
@@ -83,7 +85,7 @@ public class YouKnowWhatCanvas extends Canvas {
         gb.strokeLine(width - 1, 0, width - 1, height - 1);
         gb.strokeLine(0, height - 1, width - 1, height - 1);
     }
-    private void change( Board b, Coords c ) {
+    private void changeQueue( Board b, Coords c ) {
         if ( b.inQueue(c) ) {
             black();
             draw(border, c.x * avgcellx, c.y * avgcelly);
@@ -92,6 +94,20 @@ public class YouKnowWhatCanvas extends Canvas {
             green();
             draw(border, c.x * avgcellx, c.y * avgcelly);
         }
+        borders();
+    }
+    private void changeBoard( Board b, Coords c ) {
+        if ( !b.onBoard(c) ) {
+            black();
+            draw(border, c.x * avgcellx, c.y * avgcelly);
+        }
+        else {
+            green();
+            draw(border, c.x * avgcellx, c.y * avgcelly);
+        }
+        borders();
+        borders();
+        borders();
         borders();
     }
 
@@ -127,12 +143,10 @@ public class YouKnowWhatCanvas extends Canvas {
         borders();
         borders();
     }
-    public void drawChange( Board b ) {
-        refresh(b);
-        b.getDifference().stream().forEach(( Coords c ) -> {
-            System.out.println(c.x + " " + c.y);
-            green();
-            change(b, c);
+    public void drawChange( Board b, Set<Coords> s ) {
+        System.out.println(s.size());
+        s.forEach(c -> {
+            changeBoard(b, c);
         });
     }
 
