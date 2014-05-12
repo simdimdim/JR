@@ -20,54 +20,54 @@ import jr.Controls;
  */
 public class FXMLController implements Initializable {
 
-    //elements declaration
-    @FXML
-    AnchorPane ap;
-    @FXML
-    YouKnowWhatCanvas guiboard;
-    @FXML
-    Button create;
-    @FXML
-    Button next;
+//elements declaration
+@FXML
+AnchorPane ap;
+@FXML
+YouKnowWhatCanvas guiboard;
+@FXML
+Button create;
+@FXML
+Button next;
 
-    //other decs
-    private Board board;
+//other decs
+private Board board;
 
-    //functions declarations
-    @FXML
-    private void newboard() {
-        board = Controls.create(75, 45);
-        guiboard.drawAll(board);
-    }
+//functions declarations
+@FXML
+private void newboard() {
+    board = Controls.create(75, 45);
+    guiboard.drawAll(board);
+}
 
-    @FXML
-    private void nextstep() {
-        guiboard.drawChange(board, board.step());
-    }
+@FXML
+private void nextstep() {
+    guiboard.drawChange(board, board.step());
+}
 
-    /**
-     * Automatically called on object creation. Initialize everything here.
-     *
-     * @param url
-     * @param rb
-     */
-    @Override
-    public void initialize( URL url, ResourceBundle rb ) {
-        ap.widthProperty().addListener(
-                ( observableValue, oldValue, newValue ) -> {
-                    guiboard.setWidth(newValue.doubleValue());
-                    guiboard.refresh(board);
-                });
-        ap.heightProperty().addListener(
-                ( observableValue, oldValue, newValue ) -> {
-                    guiboard.setHeight(newValue.doubleValue());
-                    guiboard.refresh(board);
-                });
-        newboard();
-        guiboard.setOnMousePressed(e -> {
-            double x = e.getX();
-            double y = e.getY();
-            board.changeQueue(guiboard.getCell(board, x, y));
-        });
-    }
+/**
+ * Automatically called on object creation. Initialize everything here.
+ *
+ * @param url
+ * @param rb
+ */
+@Override
+public void initialize( URL url, ResourceBundle rb ) {
+    ap.widthProperty().addListener(
+            ( observableValue, oldValue, newValue ) -> {
+                guiboard.setWidth(newValue.doubleValue());
+                guiboard.refresh(board);
+            });
+    ap.heightProperty().addListener(
+            ( observableValue, oldValue, newValue ) -> {
+                guiboard.setHeight(newValue.doubleValue());
+                guiboard.refresh(board);
+            });
+    newboard();
+    guiboard.setOnMousePressed(e -> {
+        double x = e.getX();
+        double y = e.getY();
+        board.changeQueue(guiboard.getCell(board, x, y));
+    });
+}
 }

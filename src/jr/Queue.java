@@ -14,48 +14,48 @@ import java.util.Set;
  */
 public class Queue {
 
-    Set<Coords> queue;
-    public Queue() {
-        queue = new HashSet();
+Set<Cell> queue;
+public Queue() {
+    queue = new HashSet();
+}
+public void empty() {
+    queue.clear();
+}
+public void change( int x, int y ) {
+    if ( contains(x, y) ) {
+        remove(x, y);
     }
-    public void empty() {
-        queue.clear();
+    else {
+        add(x, y);
     }
-    public void change( int x, int y ) {
-        if ( contains(x, y) ) {
-            remove(x, y);
-        }
-        else {
-            add(x, y);
-        }
+}
+public void change( Cell c ) {
+    if ( contains(c) ) {
+        remove(c);
     }
-    public void change( Coords c ) {
-        if ( contains(c) ) {
-            remove(c);
-        }
-        else {
-            add(c);
-        }
+    else {
+        add(c);
     }
-    public void add( int x, int y ) {
-        queue.add(new Coords(x, y));
-    }
-    public void add( Coords c ) {
-        queue.add(c);
-    }
-    public void remove( int x, int y ) {
-        queue.remove(new Coords(x, y));
-    }
-    public void remove( Coords c ) {
-        queue.remove(c);
-    }
-    public boolean contains( int x, int y ) {
-        return queue.contains(new Coords(x, y));
-    }
-    public boolean contains( Coords c ) {
-        return queue.contains(c);
-    }
-    public Set<Coords> get() {
-        return queue;
-    }
+}
+public void add( int x, int y ) {
+    queue.add(new Cell(x, y));
+}
+public void add( Cell c ) {
+    queue.add(c);
+}
+public void remove( int x, int y ) {
+    queue.remove(new Coords(x, y));
+}
+public void remove( Cell c ) {
+    queue.remove(c);
+}
+public boolean contains( int x, int y ) {
+    return queue.contains(new Coords(x, y));
+}
+public boolean contains( Cell c ) {
+    return queue.contains(c);
+}
+public Set<Cell> get() {
+    return queue;
+}
 }
