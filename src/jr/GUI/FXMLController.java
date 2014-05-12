@@ -52,12 +52,14 @@ public class FXMLController implements Initializable {
             ColumnConstraints column = new ColumnConstraints();
             column.setMinWidth(minsize);
             column.setPrefWidth(prefsize);
+            //column.setPercentWidth(100/board.size.x);
             colconstr.add(column);
         }
         for ( int y = 0; y < board.size.y; y++ ) {
             RowConstraints row = new RowConstraints();
             row.setMinHeight(minsize);
             row.setPrefHeight(prefsize);
+            //row.setPercentHeight(100/board.size.y);  //needs some tweaking to work
             rowconstr.add(row);
         }
         guiboard.getColumnConstraints().addAll(colconstr);
