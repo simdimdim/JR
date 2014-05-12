@@ -19,6 +19,7 @@ public class Board {
     CellMap cur;
     CellMap next;
     Queue input;
+    private Set<Coords> diff;
     public int id;
     /*Size of the board. Initialized to 1, to avoid dividing by 0 errors */
     public final Coords size = new Coords(1, 1);
@@ -41,12 +42,14 @@ public class Board {
     }
 
     public void step() {
-        next.empty();       // clean
         //System.out.println(toString(cur));  // check output
         change();           // applies input
         applylogic();       // applies GoL logic
+        diff = Sets.symmetricDifference(cur.board.keySet(),
+                                        next.board.keySet());
         cur.empty();        // empty current board
         cur.putAll(next);   // copy next step to current
+        next.empty();       // clean
         input.empty();      // make way for new input
         // stop simulation if no cells remain
         if ( cur.isEmpty() ) {
@@ -55,6 +58,7 @@ public class Board {
     }
     void change() {
         input.get().stream().forEach(( Coords p ) -> {
+
             if ( cur.contains(p) ) {
                 cur.remove(p);
             }
@@ -81,8 +85,7 @@ public class Board {
                 });
     }
     public Set<Coords> getDifference() {
-        return Sets.symmetricDifference(
-                cur.board.keySet(), next.board.keySet());
+        return diff;
     }
     public int getX() {
         return size.x;
@@ -108,15 +111,22 @@ public class Board {
     public boolean inQueue( Coords c ) {
         return input.contains(c);
     }
-    public void changeQueue(Coords c){
-        if (inQueue(c)){input.remove(c);}
-        else{input.add(c);}
+    public void changeQueue( Coords c ) {
+        if ( inQueue(c) ) {
+            input.remove(c);
+        }
+        else {
+            input.add(c);
+        }
     }
     public boolean onBoard( int x, int y ) {
         return cur.contains(x, y);
     }
-    public boolean onBoard(Coords c  ) {
+    public boolean onBoard( Coords c ) {
         return cur.contains(c);
+    }
+    public Set<Coords> getBoard() {
+        return cur.getCoords();
     }
     public Board resize( int x, int y ) {
         cur.extendandremap(x, y);
@@ -124,9 +134,10 @@ public class Board {
         return this;
     }
     /**
-     * Prints the state of the board 
+     * Prints the state of the board
      * into human sensible String output.
      * Use for debug.
+     *
      * @param b for board for processing
      * @return string representation of the board
      */
@@ -155,9 +166,10 @@ public class Board {
         return out;
     }
     /**
-     * Prints the state of the board 
+     * Prints the state of the board
      * into human sensible String output.
      * Use for debug.
+     *
      * @param board for board for processing
      * @return string representation of the board
      */

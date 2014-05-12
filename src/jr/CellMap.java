@@ -70,10 +70,10 @@ public class CellMap {
     public Collection<Cell> getCells() {
         return board.values();
     }
-    public void put( int x, int y) {
+    public void put( int x, int y ) {
         board.put(new Coords(x, y), new Cell(x, y));
     }
-    public void put( Coords cord) {
+    public void put( Coords cord ) {
         board.put(cord, new Cell(cord));
     }
     public void putAll( CellMap board ) {
@@ -108,7 +108,7 @@ public class CellMap {
         });
         return newboard;
     }
-    public void extendandremap( int x, int y) {
+    public void extendandremap( int x, int y ) {
         CellMap newboard = getExtendedRemap(x, y);
         putAll(newboard);
     }

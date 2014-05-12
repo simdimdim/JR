@@ -15,11 +15,11 @@ import java.util.List;
 public class Cell extends Coords {
 
     boolean alive = true;
-    public Cell( int x, int y) {
+    public Cell( int x, int y ) {
         this.x = x;
         this.y = y;
     }
-    public Cell( Coords p) {
+    public Cell( Coords p ) {
         x = p.x;
         y = p.y;
     }

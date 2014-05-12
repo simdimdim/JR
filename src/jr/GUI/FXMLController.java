@@ -5,7 +5,6 @@
  */
 package jr.GUI;
 
-
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -20,6 +19,7 @@ import jr.Controls;
  * @author thedoctor
  */
 public class FXMLController implements Initializable {
+
     //elements declaration
     @FXML
     AnchorPane ap;
@@ -29,7 +29,7 @@ public class FXMLController implements Initializable {
     Button create;
     @FXML
     Button next;
-    
+
     //other decs
     private Board board;
 
@@ -37,42 +37,38 @@ public class FXMLController implements Initializable {
     @FXML
     private void newboard() {
         board = Controls.create(75, 45);
-        guiboard.newBoard(board);  
+        guiboard.drawAll(board);
     }
 
     @FXML
     private void nextstep() {
         board.step();
-        guiUpdate();
-    }
-    private void guiUpdate() {
-        board.getDifference().stream().forEach(key -> {
-        });
+        guiboard.drawChange(board);
     }
 
     /**
      * Automatically called on object creation. Initialize everything here.
+     *
      * @param url
      * @param rb
      */
     @Override
     public void initialize( URL url, ResourceBundle rb ) {
         ap.widthProperty().addListener(
-                (observableValue, oldValue, newValue)-> {
+                ( observableValue, oldValue, newValue ) -> {
                     guiboard.setWidth(newValue.doubleValue());
-                    guiboard.newBoard(board);
+                    guiboard.refresh(board);
                 });
         ap.heightProperty().addListener(
-                (observableValue, oldValue, newValue)-> {
+                ( observableValue, oldValue, newValue ) -> {
                     guiboard.setHeight(newValue.doubleValue());
-                    guiboard.newBoard(board);
+                    guiboard.refresh(board);
                 });
         newboard();
         guiboard.setOnMousePressed(e -> {
             double x = e.getX();
             double y = e.getY();
-            System.out.println(x+" "+y);
-            board.changeQueue(guiboard.getCell(board,x,y));
+            board.changeQueue(guiboard.getCell(board, x, y));
         });
     }
 }
