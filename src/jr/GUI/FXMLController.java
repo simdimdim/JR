@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import jr.Board;
 import jr.Controls;
 
@@ -38,14 +37,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void newboard() {
         board = Controls.create(75, 45);
-        guiboard.getGraphicsContext2D().setFill(Color.BLACK);
-        guiboard.getGraphicsContext2D().setStroke(Color.GREEN);
-        for ( int x = 0; x < board.size.x; x++ ) {
-            //gb.fill();
-        }
-        for ( int y = 0; y < board.size.y; y++ ) {
-
-        }   
+        guiboard.newBoard(board);  
     }
 
     @FXML
@@ -68,20 +60,19 @@ public class FXMLController implements Initializable {
         ap.widthProperty().addListener(
                 (observableValue, oldValue, newValue)-> {
                     guiboard.setWidth(newValue.doubleValue());
-                    guiboard.redraw(board);
+                    guiboard.newBoard(board);
                 });
         ap.heightProperty().addListener(
                 (observableValue, oldValue, newValue)-> {
                     guiboard.setHeight(newValue.doubleValue());
-                    guiboard.redraw(board);
+                    guiboard.newBoard(board);
                 });
         newboard();
         guiboard.setOnMousePressed(e -> {
             double x = e.getX();
             double y = e.getY();
             System.out.println(x+" "+y);
-            
-            //board.toQueue(guiboard.getCell(board,x,y));
+            board.changeQueue(guiboard.getCell(board,x,y));
         });
     }
 }

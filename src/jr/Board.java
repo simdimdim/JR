@@ -108,6 +108,10 @@ public class Board {
     public boolean inQueue( Coords c ) {
         return input.contains(c);
     }
+    public void changeQueue(Coords c){
+        if (inQueue(c)){input.remove(c);}
+        else{input.add(c);}
+    }
     public boolean onBoard( int x, int y ) {
         return cur.contains(x, y);
     }
@@ -120,10 +124,9 @@ public class Board {
         return this;
     }
     /**
-     * Prints the state of the board into human sensible String output.
-     * <p>
+     * Prints the state of the board 
+     * into human sensible String output.
      * Use for debug.
-     *
      * @param b for board for processing
      * @return string representation of the board
      */
@@ -152,10 +155,9 @@ public class Board {
         return out;
     }
     /**
-     * Prints the state of the board into human sensible String output.
-     * <p>
+     * Prints the state of the board 
+     * into human sensible String output.
      * Use for debug.
-     *
      * @param board for board for processing
      * @return string representation of the board
      */
