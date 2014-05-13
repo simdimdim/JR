@@ -13,29 +13,31 @@ import jr.GUI.Main;
  */
 public class Controls {
 
-static void step( int n, Queue queue ) {
-    if ( Main.boards.containsKey(n) ) {
-        Board board = Main.boards.get(n);
-        //if (board.running){
-        board.step();
-        //}
+    static void step( int n, Queue queue ) {
+        if ( Main.boards.containsKey(n) ) {
+            Board board = Main.boards.get(n);
+            //if (board.running){
+            board.step();
+            //}
+        }
     }
-}
-public Coords getSize( int n ) {
-    return new Coords(Main.boards.get(n).size);
-}
-/**
- * Creates a new board.
- *
- * @param width width of the new board
- * @param height height of the new board
- * @return the created board.
- */
-static public Board create( int width, int height ) {
-    // make board
-    int id = Main.generateNewBoardId();
-    Board board = new Board(width, height, id);
-    Main.addBoard(id, board);
-    return board;
-}
+
+    public Coords getSize( int n ) {
+        return new Coords(Main.boards.get(n).size);
+    }
+
+    /**
+     * Creates a new board.
+     *
+     * @param width width of the new board
+     * @param height height of the new board
+     * @return the created board.
+     */
+    static public Board create( int width, int height ) {
+        // make board
+        int id = Main.generateNewBoardId();
+        Board board = new Board(width, height, id);
+        Main.addBoard(id, board);
+        return board;
+    }
 }

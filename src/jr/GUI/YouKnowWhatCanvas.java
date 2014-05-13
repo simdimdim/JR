@@ -28,33 +28,37 @@ public class YouKnowWhatCanvas extends Canvas {
     GraphicsContext gb = getGraphicsContext2D();
 
     public YouKnowWhatCanvas() {
-        gb.setFill(Color.BLACK);
+        black();
         gb.setStroke(Color.GREY);
         gb.setLineWidth(border);
-        border = 1;
+        border = 0.8;
         width = getW();
         height = getH();
-        setCache(true);
     }
 
 //Basic
     public double getBorders() {
         return border;
     }
+
     public void setBorders( double x ) {
         border = x;
     }
+
     private void draw( double modifier, Cell c ) {
         gb.fillRect(c.x * avgcellx + modifier, c.y * avgcelly + modifier,
                     avgcellx - modifier, avgcelly - modifier);
     }
+
     private void draw( double modifier, double x, double y ) {
         gb.fillRect(x + modifier, y + modifier, avgcellx - modifier, avgcelly -
-                                                                     modifier);
+                    modifier);
     }
+
     public final double getW() {
         return gb.getCanvas().getWidth();
     }
+
     public final double getH() {
         return gb.getCanvas().getHeight();
     }
@@ -67,6 +71,7 @@ public class YouKnowWhatCanvas extends Canvas {
         changeQueue(board, c);
         return c;
     }
+
     private void borders() {
         for ( int x = 0; x < col; x++ ) {
             gb.strokeLine(x * avgcellx, 0, x * avgcellx, height);
@@ -76,6 +81,32 @@ public class YouKnowWhatCanvas extends Canvas {
         }
         gb.strokeLine(width - 1, 0, width - 1, height - 1);
         gb.strokeLine(0, height - 1, width - 1, height - 1);
+    }
+    private void borders(Cell c) {
+        //  0:0 start
+        //  0:1 stop
+        gb.strokeLine(c.x * avgcellx, 
+                      c.y * avgcelly, 
+                      c.x * avgcellx, 
+                      (c.y+1) * avgcelly);
+        //  0:0 start
+        //  1:0 stop
+        gb.strokeLine(c.x * avgcellx, 
+                      c.y * avgcelly, 
+                      (c.x+1) * avgcellx,
+                      c.y * avgcelly);
+        //  0:1 start
+        //  1:1 stop
+        gb.strokeLine(c.x * avgcellx, 
+                      (c.y+1) * avgcelly,
+                      (c.x+1) * avgcellx, 
+                      (c.y+1) * avgcelly);
+        //  1:0 start
+        //  1:1 stop
+        gb.strokeLine((c.x+1) * avgcellx, 
+                      c.y* avgcelly, 
+                      (c.x+1) * avgcellx, 
+                      (c.y+1) * avgcelly);
     }
     private void changeQueue( Board b, Cell c ) {
         if ( b.inQueue(c) ) {
@@ -92,11 +123,9 @@ public class YouKnowWhatCanvas extends Canvas {
                 draw(border, c.x * avgcellx, c.y * avgcelly);
             }
         }
-        borders();
-        borders();
-        borders();
-        borders();
+        borders(c);
     }
+
     private void changeBoard( Board b, Cell c ) {
         if ( b.onBoard(c) ) {
             green();
@@ -106,11 +135,9 @@ public class YouKnowWhatCanvas extends Canvas {
             black();
             draw(border, c.x * avgcellx, c.y * avgcelly);
         }
-        borders();
-        borders();
-        borders();
-        borders();
+        borders(c);
     }
+
     public void refresh( Board b ) {
         col = b.getX();
         row = b.getY();
@@ -131,27 +158,25 @@ public class YouKnowWhatCanvas extends Canvas {
             }
         }
     }
+
     public void drawAll( Board b ) {
         green();
         b.getBoard().forEach(( Cell c ) -> {
             draw(border, c.x * avgcellx, c.y * avgcelly);
+            borders(c);
         });
         b.getQueue().get().forEach(( Cell c ) -> {
             draw(border, c.x * avgcellx, c.y * avgcelly);
+            borders(c);
         });
-        borders();
-        borders();
-        borders();
-        borders();
     }
+
     public void reDraw( Board b ) {
         emptyFill();
         drawAll(b);
         borders();
-        borders();
-        borders();
-        borders();
     }
+
     public void drawChange( Board b, Set<Cell> s ) {
         s.forEach(c -> {
             changeBoard(b, c);
@@ -162,6 +187,7 @@ public class YouKnowWhatCanvas extends Canvas {
     private void green() {
         gb.setFill(Color.GREEN);
     }
+
     private void black() {
         gb.setFill(Color.BLACK);
     }

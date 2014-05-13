@@ -22,45 +22,45 @@ import jr.Board;
 public class Main extends Application {
 
 // <board>
-public static HashMap<Integer, Board> boards = new HashMap<>();
-private static int id = 0;
+    public static HashMap<Integer, Board> boards = new HashMap<>();
+    private static int id = 0;
 
-/**
- * Generates unique id for new board.
- *
- * @return
- */
-public static int generateNewBoardId() {
-    id++;
-    return id - 1;
-}
+    /**
+     * Generates unique id for new board.
+     *
+     * @return
+     */
+    public static int generateNewBoardId() {
+        id++;
+        return id - 1;
+    }
 
-/**
- * Adds board with specified id.
- *
- * @param _id index.
- * @param board Board.
- * @param queue inputs queue source for the board.
- * @return index of the board.
- */
-public static int addBoard( int _id, Board board ) {
-    boards.put(_id, board);
-    return _id;
-}
+    /**
+     * Adds board with specified id.
+     *
+     * @param _id index.
+     * @param board Board.
+     * @param queue inputs queue source for the board.
+     * @return index of the board.
+     */
+    public static int addBoard( int _id, Board board ) {
+        boards.put(_id, board);
+        return _id;
+    }
 // </board>
 
-@Override
-public void start( Stage stage ) throws Exception {
-    Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
-    Scene scene = new Scene(root, Color.BLACK);
-    stage.setScene(scene);
-    stage.show();
-}
+    @Override
+    public void start( Stage stage ) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
+        Scene scene = new Scene(root, Color.BLACK);
+        stage.setScene(scene);
+        stage.show();
+    }
 
-/**
- * @param args the command line arguments
- */
-public static void main( String[] args ) {
-    launch(args);
-}
+    /**
+     * @param args the command line arguments
+     */
+    public static void main( String[] args ) {
+        launch(args);
+    }
 }

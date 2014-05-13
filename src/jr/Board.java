@@ -20,7 +20,7 @@ public class Board {
     CellMap next;
     Queue input;
     public int id;
-    /*Size of the board. Initialized to 1, to avoid dividing by 0 errors */
+    /* Size of the board. Initialized to 1, to avoid dividing by 0 errors */
     public final Coords size = new Coords(1, 1);
 
     /**
@@ -54,8 +54,12 @@ public class Board {
         if ( cur.isEmpty() ) {
             stop();
         }
+        if ( diff.isEmpty() ) {
+            stop();
+        }
         return diff;
     }
+
     void change() {
         input.get().stream().forEach(( Cell p ) -> {
             if ( cur.contains(p) ) {
@@ -66,6 +70,7 @@ public class Board {
             }
         });
     }
+
     void applylogic() {
         cur.board.stream()
                 .flatMap(cell ->
@@ -83,34 +88,44 @@ public class Board {
                     }
                 });
     }
+
     public int getX() {
         return size.x;
     }
+
     public int getY() {
         return size.y;
     }
+
     public void fill( boolean alive, int startw, int stopw, int starth,
-                      int stoph ) {
+            int stoph ) {
         cur.fill(alive, startw, stopw, starth, stoph);
     }
+
     public void stop() {
         running = false;
     }
+
     public void toQueue( int x, int y ) {
         input.add(x, y);
     }
+
     public void toQueue( Cell c ) {
         input.add(c);
     }
+
     public Queue getQueue() {
         return input;
     }
+
     public boolean inQueue( int x, int y ) {
         return input.contains(x, y);
     }
+
     public boolean inQueue( Cell c ) {
         return input.contains(c);
     }
+
     public void changeQueue( Cell c ) {
         if ( inQueue(c) ) {
             input.remove(c);
@@ -119,20 +134,25 @@ public class Board {
             input.add(c);
         }
     }
+
     public boolean onBoard( int x, int y ) {
         return cur.contains(x, y);
     }
+
     public boolean onBoard( Cell c ) {
         return cur.contains(c);
     }
+
     public Set<Cell> getBoard() {
         return cur.getCells();
     }
+
     public Board resize( int x, int y ) {
         cur.extendandremap(x, y);
         next.extendandremap(x, y);
         return this;
     }
+
     /**
      * Prints the state of the board
      * into human sensible String output.
@@ -165,6 +185,7 @@ public class Board {
         }        //System.out.println(cur);
         return out;
     }
+
     /**
      * Prints the state of the board
      * into human sensible String output.

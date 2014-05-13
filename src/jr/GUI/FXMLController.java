@@ -31,39 +31,56 @@ public class FXMLController implements Initializable {
     @FXML
     Button create;
     @FXML
-    Button next;
+    Button play;
+    @FXML
+    Button stop;
+    @FXML
+    Button exit;
 
 //other decs
     private Board board;
-    private Timer timer;
+    private Timer timer = new Timer();
+    public long gen=0;
 
 //functions declarations
     @FXML
     private void newboard() {
-        board = Controls.create(75, 45);
+        board = Controls.create(400, 200);
         guiboard.drawAll(board);
     }
 
     @FXML
-    private void nextstep() {
-        guiboard.drawChange(board, board.step());
-        start();
+    private void play() {
+        start(0, 5);
     }
-    void start() {
-        timer = new Timer();
+
+    @FXML
+    private void stop() {
+        //
+    }
+
+    @FXML
+    private void exit() {
+        System.exit(1);
+    }
+
+    void start( long d, long i ) {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 if ( board.running ) {
                     Platform.runLater(() -> {
                         guiboard.drawChange(board, board.step());
+                        gen++;
+                        System.out.println(gen);
                     });
-                    if ( !board.running ) {
-                        cancel();
-                    }
+                }
+                else {
+                    cancel();
+                    timer.purge();
                 }
             }
-        }, ( long ) 0, ( long ) 180);
+        }, d, i);
     }
 
     /**

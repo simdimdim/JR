@@ -11,38 +11,41 @@ package jr;
  */
 public class Coords {
 
-public int x;
-public int y;
+    public int x;
+    public int y;
 
-public Coords( int x, int y ) {
-    this.x = x;
-    this.y = y;
-}
-public Coords( Coords p ) {
-    x = p.x;
-    y = p.y;
-}
-public Coords() {
-    x = 0;
-    y = 0;
-}
+    public Coords( int x, int y ) {
+        this.x = x;
+        this.y = y;
+    }
 
-@Override
-public boolean equals( Object o ) {
-    if ( o == null ) {
-        return false;
+    public Coords( Coords p ) {
+        x = p.x;
+        y = p.y;
     }
-    if ( !( o instanceof Coords ) ) {
-        return false;
+
+    public Coords() {
+        x = 0;
+        y = 0;
     }
-    return ( ( this.x == ( ( Coords ) o ).x ) && ( this.y ==
-                                                   ( ( Coords ) o ).y ) );
-}
-@Override
-public int hashCode() {
-    int hash = 5;
-    hash = 79 * hash + this.x;
-    hash = 79 * hash + this.y;
-    return hash;
-}
+
+    @Override
+    public boolean equals( Object o ) {
+        if ( o == null ) {
+            return false;
+        }
+        if ( !( o instanceof Coords ) ) {
+            return false;
+        }
+        return ( ( this.x == ( ( Coords ) o ).x ) && ( this.y ==
+                ( ( Coords ) o ).y ) );
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + this.x;
+        hash = 79 * hash + this.y;
+        return hash;
+    }
 }
