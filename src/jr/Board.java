@@ -52,10 +52,10 @@ public class Board {
         input.empty();      // make way for new input
         // stop simulation if no cells remain
         if ( cur.isEmpty() ) {
-            stop();
+            //stop();
         }
         if ( diff.isEmpty() ) {
-            stop();
+            //stop();
         }
         return diff;
     }

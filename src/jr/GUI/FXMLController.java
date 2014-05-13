@@ -40,7 +40,7 @@ public class FXMLController implements Initializable {
 //other decs
     private Board board;
     private Timer timer = new Timer();
-    public long gen=0;
+    //public long gen = 0;
 
 //functions declarations
     @FXML
@@ -70,14 +70,14 @@ public class FXMLController implements Initializable {
             public void run() {
                 if ( board.running ) {
                     Platform.runLater(() -> {
-                        guiboard.drawChange(board, board.step());
+                        guiboard.drawChange(board, board.step());/*
                         gen++;
-                        System.out.println(gen);
+                        System.out.println(gen);*/
                     });
                 }
                 else {
                     cancel();
-                    timer.purge();
+                    //timer.purge();
                 }
             }
         }, d, i);
