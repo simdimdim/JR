@@ -103,13 +103,14 @@ public class FXMLController implements Initializable {
         });
         
         // animation
-        anim = new Timeline(new KeyFrame(Duration.millis(1), e -> {
+        anim = new Timeline(new KeyFrame(Duration.millis(10), e -> {
              guiboard.drawChange(board, board.step());
         }));
         anim.setCycleCount(Timeline.INDEFINITE);
         // slider for animation speed control
         speedSlider.setMin(0);
-        speedSlider.setMax(5);
-//        speedSlider.valueProperty().bindBidirectional(anim.rateProperty());
+        speedSlider.setMax(1);
+        speedSlider.valueProperty().bindBidirectional(anim.rateProperty());
+        speedSlider.setValue(0.2);
     }
 }
