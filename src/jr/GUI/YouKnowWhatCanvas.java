@@ -177,7 +177,9 @@ public class YouKnowWhatCanvas extends Canvas {
         borders();
     }
 
-    public void drawChange( Board b, Set<Cell> s ) {
+    public void drawChange( Board b ) {
+        Set<Cell> s = b.step(); // It's a bad idea for this to be here, isn't it?
+        // Althought that way we can pass specific board more easily
         s.forEach(c -> {
             changeBoard(b, c);
         });

@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -27,8 +28,6 @@ public class FXMLController implements Initializable {
 //elements declaration
     @FXML
     AnchorPane ap;
-    
-    YouKnowWhatCanvas guiboard;
     @FXML
     Button create;
     @FXML
@@ -37,17 +36,21 @@ public class FXMLController implements Initializable {
     Button stop;
     @FXML
     Button exit;
-    @FXML Slider speedSlider;
-    
-    Timeline anim;
+    @FXML
+    Slider speedSlider;
 
 //other decs
     private Board board;
+    Timeline anim;
+    YouKnowWhatCanvas guiboard;
+    double midway;
+    double a;
+    double b;
 
 //functions declarations
     @FXML
     private void newboard() {
-        board = Controls.create(100, 100);
+        board = Controls.create(400, 200);
         guiboard.drawAll(board);
     }
 
@@ -83,8 +86,8 @@ public class FXMLController implements Initializable {
         AnchorPane.setBottomAnchor(guiboard, 0.0);
         AnchorPane.setTopAnchor(guiboard, 0.0);
         AnchorPane.setLeftAnchor(guiboard, 0.0);
-        AnchorPane.setRightAnchor(guiboard, 50.0);
-        
+        AnchorPane.setRightAnchor(guiboard, 0.0);
+
         ap.widthProperty().addListener(
                 ( observableValue, oldValue, newValue ) -> {
                     guiboard.setWidth(newValue.doubleValue());
@@ -101,16 +104,28 @@ public class FXMLController implements Initializable {
             double y = e.getY();
             board.changeQueue(guiboard.getCell(board, x, y));
         });
-        
+
         // animation
         anim = new Timeline(new KeyFrame(Duration.millis(10), e -> {
-             guiboard.drawChange(board, board.step());
+            guiboard.drawChange(board);
         }));
         anim.setCycleCount(Timeline.INDEFINITE);
         // slider for animation speed control
         speedSlider.setMin(0);
         speedSlider.setMax(1);
-        speedSlider.valueProperty().bindBidirectional(anim.rateProperty());
-        speedSlider.setValue(0.2);
+        /*the part of the exp() scale in the middle of the slider
+         * keep between 0 and 0.5 for more granularity on the slow speeds
+         */
+        midway = 0.18;  
+        b = -( ( 2 * midway ) - 1 ) / Math.pow(midway, 2d);
+        a = Math.log(Math.pow(( midway * b + 1 ), 2d));
+        speedSlider.valueProperty().addListener((
+                ObservableValue<? extends Number> ov, Number oldValue,
+                Number newValue ) -> {
+                    double val =
+                           (( Math.exp(newValue.doubleValue() * a) - 1 ) / b );
+                    anim.setRate(val);
+                });
+        speedSlider.setValue(0.12);
     }
 }

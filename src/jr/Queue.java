@@ -24,6 +24,13 @@ public class Queue {
         queue.clear();
     }
 
+    public boolean isempty() {
+        return queue.isEmpty();
+    }
+    public int size(){
+        return queue.size();
+    }
+
     public void change( int x, int y ) {
         if ( contains(x, y) ) {
             remove(x, y);
@@ -69,4 +76,5 @@ public class Queue {
     public Set<Cell> get() {
         return queue;
     }
+
 }
