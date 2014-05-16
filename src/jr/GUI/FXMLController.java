@@ -69,8 +69,9 @@ public class FXMLController implements Initializable {
         System.exit(1);
     }
 
-    void start( long d, long i ) {
-        anim.play();
+    @FXML
+    private void refresh() {
+        guiboard.reDraw(board);
     }
 
     /**
@@ -106,25 +107,25 @@ public class FXMLController implements Initializable {
         });
 
         // animation
-        anim = new Timeline(new KeyFrame(Duration.millis(10), e -> {
+        anim = new Timeline(new KeyFrame(Duration.millis(12), e -> {
             guiboard.drawChange(board);
         }));
         anim.setCycleCount(Timeline.INDEFINITE);
         // slider for animation speed control
         speedSlider.setMin(0);
         speedSlider.setMax(1);
-        /*the part of the exp() scale in the middle of the slider
+        /* the part of the exp() scale in the middle of the slider
          * keep between 0 and 0.5 for more granularity on the slow speeds
          */
-        midway = 0.18;  
-        b = -( ( 2 * midway ) - 1 ) / Math.pow(midway, 2d);
-        a = Math.log(Math.pow(( midway * b + 1 ), 2d));
+        midway = 0.12;
+        b = -( ( 2 * midway ) - 1 ) / Math.pow(midway, 2);
+        a = Math.log(Math.pow(( midway * b + 1 ), 2));
         speedSlider.valueProperty().addListener((
                 ObservableValue<? extends Number> ov, Number oldValue,
                 Number newValue ) -> {
-                    double val =
-                           (( Math.exp(newValue.doubleValue() * a) - 1 ) / b );
+                    double val = ( Math.exp(newValue.doubleValue() * a) - 1 ) / b;
                     anim.setRate(val);
+                    //guiboard.graph( newValue.doubleValue(), val); // graph
                 });
         speedSlider.setValue(0.12);
     }

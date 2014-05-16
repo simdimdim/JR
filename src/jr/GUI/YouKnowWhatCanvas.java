@@ -30,8 +30,8 @@ public class YouKnowWhatCanvas extends Canvas {
     public YouKnowWhatCanvas() {
         black();
         gb.setStroke(Color.GREY);
-        gb.setLineWidth(border);
         border = 0.8;
+        gb.setLineWidth(border);
         width = getW();
         height = getH();
     }
@@ -43,6 +43,7 @@ public class YouKnowWhatCanvas extends Canvas {
 
     public void setBorders( double x ) {
         border = x;
+        gb.setLineWidth(border);
     }
 
     public final double getW() {
@@ -171,7 +172,6 @@ public class YouKnowWhatCanvas extends Canvas {
     public void reDraw( Board b ) {
         emptyFill();
         drawAll(b);
-        borders();
     }
 
     public void drawChange( Board b ) {
@@ -199,5 +199,28 @@ public class YouKnowWhatCanvas extends Canvas {
 
     private void black() {
         gb.setFill(Color.BLACK);
+    }
+
+    public void graph( double x, double y ) {
+        if ( y < 1 ) {
+            gb.setFill(Color.color(1, 0, 0));
+        }
+        if ( y < 0.8 ) {
+            gb.setFill(Color.color(1, 0, 1));
+        }
+        if ( y < 0.6 ) {
+            gb.setFill(Color.color(0, 0, 1));
+        }
+        if ( y < 0.4 ) {
+            gb.setFill(Color.color(0, 0, 1));
+        }
+        if ( y < 0.2 ) {
+            gb.setFill(Color.color(0, 1, 0));
+        }
+        if ( x > 0.498 && x < 0.502 ) {
+            gb.setFill(Color.color(1, 1, 1));
+        }
+        gb.fillRect(x * ( width - 1 ),
+                    ( height - 1 ) - y * ( height - 1 ), avgcellx, avgcelly);
     }
 }
