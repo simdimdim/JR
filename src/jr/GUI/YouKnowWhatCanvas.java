@@ -183,8 +183,8 @@ public class YouKnowWhatCanvas extends Canvas {
     }
 
     public void refresh( Board b ) {
-        col = b.getX();
-        row = b.getY();
+        col = b.getW();
+        row = b.getH();
         width = getW();
         height = getH();
         avgcellx = ( width / col );

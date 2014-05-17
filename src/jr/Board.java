@@ -46,7 +46,7 @@ public class Board {
         change();           // applies input
         applylogic();       // applies GoL logic
         Set<Cell> diff = Sets.symmetricDifference(
-                  cur.board, next.board).immutableCopy();
+                cur.board, next.board).immutableCopy();
         cur.empty();        // empty current board
         cur.putAll(next);   // copy next step to current
         input.empty();      // make way for new input
@@ -89,17 +89,22 @@ public class Board {
                 });
     }
 
-    public int getX() {
+    public int getW() {
         return size.x;
     }
 
-    public int getY() {
+    public int getH() {
         return size.y;
     }
 
     public void fill( boolean alive, int startw, int stopw, int starth,
             int stoph ) {
-        cur.fill(alive, startw, stopw, starth, stoph);
+        if ( alive ) {
+            input.fill(startw, stopw, starth, stoph);
+        }
+        else{
+            input.defill(startw, stopw, starth, stoph);
+        }
     }
 
     public void stop() {

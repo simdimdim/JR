@@ -5,8 +5,6 @@
  */
 package jr;
 
-import static java.lang.Integer.max;
-import static java.lang.Integer.min;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,31 +26,6 @@ public class CellMap {
         board = new HashSet<>();
         width = x;
         height = y;
-    }
-
-    /**
-     * Fill the board with cells
-     * Constructor. Specified size can be changed later.
-     *
-     * @param alive
-     * @param cell Cell to fill the array with
-     * @param x1 filling starting point (on the horizontal)
-     * @param x2 filling stopping point (on the horizontal)
-     * @param y1 filling starting point (on the vertical)
-     * @param y2 filling stopping point (on the vertical)
-     *
-     */
-    public void fill( boolean alive, int x1, int x2, int y1, int y2 ) {
-        for ( int x = min(x1, x2); x < max(x1, x2); x++ ) {
-            for ( int y = min(y1, y2); y < max(y1, y2); y++ ) {
-                if ( alive ) {
-                    put(x, y);
-                }
-                else {
-                    remove(x, y);
-                }
-            }
-        }
     }
 
     /**
