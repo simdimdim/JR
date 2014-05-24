@@ -20,6 +20,6 @@
 
 [ ] (Probable) Bugs (check if)
 	[ ] alive cells are not turning green again after a click? (same cycle)
-	[ ] hangs afre a while at max speed?
+	[ ] hangs after a while at max speed?
 
 - Finish the thing.
